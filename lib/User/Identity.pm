@@ -1,6 +1,6 @@
 package User::Identity;
 use vars '$VERSION';
-$VERSION = '0.06';
+$VERSION = '0.07';
 use base 'User::Identity::Item';
 
 use strict;
@@ -13,7 +13,7 @@ use overload '""' => 'fullName';
 #-----------------------------------------
 
 
-my @attributes = qw/charset courtesy date_of_birth full_name formal_name
+my @attributes = qw/charset courtesy birth full_name formal_name
 firstname gender initials language nickname prefix surname titles /;
 
 sub init($)
@@ -25,12 +25,12 @@ sub init($)
     $self->SUPER::init($args);
 }
 
-#-----------------------------------------
+sub type() { 'user' }
+
+sub user() { shift }
 
 
 sub charset() { shift->{UI_charset} || $ENV{LC_CTYPE} }
-
-#-----------------------------------------
 
 
 sub nickname()
@@ -39,15 +39,11 @@ sub nickname()
     # TBI: If OS-specific info exists, then username
 }
 
-#-----------------------------------------
-
 
 sub firstname()
 {   my $self = shift;
     $self->{UI_firstname} || ucfirst $self->nickname;
 }
-
-#-----------------------------------------
 
 
 sub initials()
@@ -67,17 +63,11 @@ sub initials()
     }
 }
 
-#-----------------------------------------
-
 
 sub prefix() { shift->{UI_prefix} }
 
-#-----------------------------------------
-
 
 sub surname() { shift->{UI_surname} }
-
-#-----------------------------------------
 
 
 sub fullName()
@@ -101,8 +91,6 @@ sub fullName()
     $full;
 }
 
-#-----------------------------------------
-
 
 sub formalName()
 {   my $self = shift;
@@ -118,8 +106,6 @@ sub formalName()
        $self->courtesy, $initials
        , @$self{ qw/UI_prefix UI_surname UI_titles/ };
 }
-
-#-----------------------------------------
 
 
 my %male_courtesy
@@ -175,8 +161,6 @@ sub courtesy()
     $table->{$lang};
 }
 
-#-----------------------------------------
-
 
 # TBI: if we have a courtesy, we may detect the language.
 # TBI: when we have a postal address, we may derive the language from
@@ -186,12 +170,8 @@ sub courtesy()
 
 sub language() { shift->{UI_language} || 'en' }
 
-#-----------------------------------------
-
 
 sub gender() { shift->{UI_gender} }
-
-#-----------------------------------------
 
 
 sub isMale()
@@ -210,8 +190,6 @@ sub isMale()
     undef;
 }
 
-#-----------------------------------------
-
 
 sub isFemale()
 {   my $self = shift;
@@ -229,12 +207,8 @@ sub isFemale()
     undef;
 }
 
-#-----------------------------------------
 
-
-sub dateOfBirth() { shift->{UI_date_of_birth} }
-
-#-----------------------------------------
+sub dateOfBirth() { shift->{UI_birth} }
 
 
 sub birth()
@@ -262,8 +236,6 @@ sub birth()
     undef;
 }
 
-#-----------------------------------------
-
 
 sub age()
 {   my $birth = shift->birth or return;
@@ -277,97 +249,8 @@ sub age()
     $age;
 }
 
-#-----------------------------------------
-
 
 sub titles() { shift->{UI_titles} }
-
-#-----------------------------------------
-
-
-our %collectors =
- ( emails    => 'User::Identity::Collection::Emails'
- , locations => 'User::Identity::Collection::Locations'
- , systems   => 'User::Identity::Collection::Systems'
- );  # *s is tried as well, so email, system, and location work too.
-
-sub addCollection(@)
-{   my $self = shift;
-    return unless @_;
-
-    my $object;
-    if(ref $_[0])
-    {   $object = shift;
-        croak "ERROR: $object is not a collection"
-           unless $object->isa('User::Identity::Collection');
-    }
-    else
-    {   unshift @_, 'type' if @_ % 2;
-        my %args  = @_;
-        my $type  = delete $args{type};
-
-        croak "ERROR: Don't know what type of collection you want to add"
-           unless $type;
-
-        my $class = $collectors{$type} || $collectors{$type.'s'} || $type;
-        eval "require $class";
-        croak "ERROR: Cannot load collection module $type ($class); $@"
-           if $@;
-
-        $object = $class->new(%args);
-        croak "ERROR: Creation of a collection via $class failed"
-           unless defined $object;
-    }
-
-    $object->user($self);
-    $self->{UI_col}{$object->name} = $object;
-}
-
-#-----------------------------------------
-
-
-sub collection($;$)
-{   my $self       = shift;
-    my $collname   = shift;
-    my $collection
-      = $self->{UI_col}{$collname} || $self->{UI_col}{$collname.'s'} || return;
-
-    wantarray ? $collection->roles : $collection;
-}
-
-#-----------------------------------------
-
-
-sub add($$)
-{   my ($self, $collname) = (shift, shift);
-    my $collection
-     = ref $collname && $collname->isa('User::Identity::Collection')
-     ? $collname
-     : ($self->collection($collname) || $self->addCollection($collname));
-
-    unless($collection)
-    {   carp "No collection $collname";
-        return;
-    }
-
-    $collection->addRole(@_);
-}
-
-#-----------------------------------------
-
-
-sub find($$)
-{   my $all        = shift->{UI_col};
-    my $collname   = shift;
-    my $collection
-     = ref $collname && $collname->isa('User::Identity::Collect') ? $collname
-     : ($all->{$collname} || $all->{$collname.'s'});
-
-    return () unless defined $collection;
-    $collection->find(shift);
-}
-
-#-----------------------------------------
 
 1;
 

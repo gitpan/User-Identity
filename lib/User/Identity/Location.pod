@@ -1,39 +1,48 @@
 
 =head1 NAME
 
-User::Identity::Location - physical location of a person
+Mail::Identity - an e-mail role
 
 
 =head1 INHERITANCE
 
- User::Identity::Location
-   is a User::Identity::Collection::Item
+ Mail::Identity
    is a User::Identity::Item
 
 
 =head1 SYNOPSIS
 
  use User::Identity;
- use User::Identity::Location;
+ use Mail::Identity;
  my $me   = User::Identity->new(...);
- my $addr = User::Identity::Location->new(...);
- $me->add(location => $addr);
+ my $addr = Mail::Identity->new(address => 'x@y');
+ $me->add(email => $addr);
 
  # Simpler
 
  use User::Identity;
  my $me   = User::Identity->new(...);
- my $addr = $me->add(location => ...);
+ my $addr = $me->add(email => 'x@y');
+ my $addr = $me->add( email => 'home'
+                    , address => 'x@y');
+
+ # Conversion
+ my $ma   = Mail::Address->new(...);
+ my $mi   = Mail::Identity->coerce($ma);
 
 
 =head1 DESCRIPTION
 
-The C<User::Identity::Location> object contains the description of a physical
-location of a person: home, work, travel.  The locations are collected
-by a L<User::Identity::Collection::Locations|User::Identity::Collection::Locations> object.
+The C<Mail::Identity> object contains the description of role played by
+a human when sending e-mail.  Most people have more than one role these
+days: for instance, a private and a company role with different e-mail
+addresses.
 
-Nearly all methods can return C<undef>.  Some methods produce language or
-country specific output.
+An C<Mail::Identity> object combines an e-mail address, user description
+("phrase"), a signature, pgp-key, and so on.  All fields are optional,
+and some fields are smart.  One such set of data represents one role.
+C<Mail::Identity> is therefore the smart cousine of the Mail::Address
+object.
 
 
 
@@ -43,83 +52,131 @@ country specific output.
 =head2 Initiation
 
 
-User::Identity::Location-E<gt>B<new>([NAME], OPTIONS)
+Mail::Identity-E<gt>B<new>([NAME], OPTIONS)
 
 =over 4
 
-Create a new location.  You can specify a name as first argument, or
-in the OPTION list.  Without a specific name, the organization is used as name.
+ Option        Defined in       Default                                 
+ address                        <username@domain or name>               
+ charset                        <user's charset>                        
+ comment                        <user's fullname if phrase is different>
+ description   L<User::Identity::Item>  undef                                   
+ domain                         <from email or localhost>               
+ language                       <from user>                             
+ location                       <random user's location>                
+ name          L<User::Identity::Item>  <phrase or user's fullName>             
+ organization                   <location's organization>               
+ parent        L<User::Identity::Item>  C<undef>                                
+ pgp_key                        undef                                   
+ phrase                         <user's fullName>                       
+ signature                      undef                                   
+ username                       <from address or user's nickname>       
 
- Option        Defined in       Default   
- country                        undef     
- country_code                   undef     
- description   L<User::Identity::Item>  undef     
- fax                            undef     
- name          L<User::Identity::Item>  <required>
- organization                   undef     
- pobox                          undef     
- pobox_pc                       undef     
- postal_code                    undef     
- state                          undef     
- street                         undef     
- telephone                      undef     
- user          L<User::Identity::Collection::Item>  undef     
+. address STRING
 
-. country STRING
+=over 4
 
-. country_code STRING
+The e-mail address is constructed from the username/domain, but
+when both do not exist, the name is taken.
+
+=back
+
+. charset STRING
+
+. comment STRING
 
 . description STRING
 
-. fax STRING|ARRAY
+. domain STRING
+
+. language STRING
+
+. location NAME|OBJECT
+
+=over 4
+
+The user's location which relates to this mail identity.  This can be
+specified as location name (which will be looked-up when needed), or
+as L<User::Identity::Location|User::Identity::Location> object.
+
+=back
 
 . name STRING
 
 . organization STRING
 
-. pobox STRING
+=over 4
 
-. pobox_pc STRING
+Usually defined for e-mail addresses which are used by a company or
+other organization, but less common for personal addresses.  This
+value will be used to fill the C<Organization> header field of messages.
 
-. postal_code STRING
+=back
 
-. state STRING
+. parent OBJECT
 
-. street STRING
+. pgp_key STRING|FILENAME
 
-. telephone STRING|ARRAY
+. phrase STRING
 
-. user OBJECT
+. signature STRING
+
+. username STRING
+
+=back
+
+=head2 Constructors
+
+
+$obj-E<gt>B<from>(OBJECT)
+
+=over 4
+
+Convert an OBJECT into a C<Mail::Identity>.  On the moment, you can
+specify Mail::Address and L<User::Identity|User::Identity> objects.  In the
+former case, a new C<Mail::Identity> is created containing the same
+information.  In the latter, the first address of the user is picked
+and returned.
 
 =back
 
 =head2 Attributes
 
 
-$obj-E<gt>B<city>
+$obj-E<gt>B<address>
 
 =over 4
 
-The city where the address is located.
+Returns the e-mail address for this role.  If none was specified, it will
+be constructed from the username and domain.  If those are not present
+as well, then the L<name()|User::Identity::Item/"Attributes"> is used when it contains a C<@>, else the
+user's nickname is taken.
 
 =back
 
-$obj-E<gt>B<country>
+$obj-E<gt>B<charset>
 
 =over 4
 
-The country where the address is located.  If the name of the country is
-not known but a country code is defined, the name will be looked-up
-using Geography::Countries (if installed).
+Returns the character set used in comment and phrase.  When set to
+C<undef>, the strings (are already encoded to) contain only ASCII
+characters.  This defaults to the value of the user's charset, if a user
+is defined.
 
 =back
 
-$obj-E<gt>B<countryCode>
+$obj-E<gt>B<comment>([STRING])
 
 =over 4
 
-Each country has an ISO standard abbreviation.  Specify the country or the
-country code, and the other will be filled in automatically.
+E-mail address -when included in message MIME headers- can contain a comment.
+The RFCs advice not to store useful information in these comments, but it
+you really want to, you can do it.  The comment defaults to the user's
+fullname if the phrase is not the fullname and there is a user defined.
+
+Comments will be enclosed in parenthesis when used. Parenthesis (matching)
+or non-matching) which are already in the string will carefully escaped
+when needed.  You do not need to worry.
 
 =back
 
@@ -131,27 +188,33 @@ See L<User::Identity::Item/"Attributes">
 
 =back
 
-$obj-E<gt>B<fax>
+$obj-E<gt>B<domain>
 
 =over 4
 
-One or more fax numbers, like L<telephone()|User::Identity::Location/"Attributes">.
+The domain is the part of the e-mail address after the C<@>-sign.
+When this is not defined, it can be deducted from the email address
+(see L<address()|Mail::Identity/"Attributes">).  If nothing is known, C<localhost> is returned.
 
 =back
 
-$obj-E<gt>B<fullAddress>
+$obj-E<gt>B<language>
 
 =over 4
 
-Create an address to put on a postal mailing, in the format as normal in
-the country where it must go to.  To be able to achieve that, the country
-code must be known.  If the city is not specified or no street or pobox is
-given, undef will be returned: an incomplete address.
+Returns the language which is used for the description fields of this
+e-mail address, which defaults to the user's language.
 
-I<Example:> 
+=back
 
- print $uil->fullAddress;
- print $user->find(location => 'home')->fullAddress;
+$obj-E<gt>B<location>
+
+=over 4
+
+Returns the object which describes to which location this mail address relates.
+The location may be used to find the name of the organization involved, or
+to create a signature.  If no location is specified, but a user is defined
+which has locations, one of those is randomly chosen.
 
 =back
 
@@ -167,78 +230,145 @@ $obj-E<gt>B<organization>
 
 =over 4
 
-The organization (for instance company) which is related to this location.
+Returns the organization which relates to this e-mail identity.  If not
+explicitly specified, it is tried to be found via the location.
 
 =back
 
-$obj-E<gt>B<pobox>
+$obj-E<gt>B<phrase>
 
 =over 4
 
-Post Office mail box specification.  Use C<"P.O.Box 314">, not simple C<314>.
+The phrase is used in an e-mail address to explain who is sending the
+message.  This usually is the fullname (the user's fullname is used by
+default), description of your function (Webmaster), or any other text.
+
+When an email string is produced, the phase will be quoted if needed.
+Quotes which are within the string will automatically be escaped, so
+you do no need to worry: input cannot break the outcome!
 
 =back
 
-$obj-E<gt>B<poboxPostalCode>
+$obj-E<gt>B<username>
 
 =over 4
 
-The postal code related to the Post-Office mail box.  Defined by new() option
-C<pobox_pc>.
+Returns the username of this e-mail address.  If none is specified, first
+it is tried to extract it from the specified e-mail address.  If there is
+also no username in the e-mail address, the user identity's nickname is
+taken.
 
 =back
 
-$obj-E<gt>B<postalCode>
+=head2 Collections
+
+
+$obj-E<gt>B<add>(COLLECTION, ROLE)
 
 =over 4
 
-The postal code is very country dependent.  Also, the location of the
-code within the formatted string is country dependent.
+See L<User::Identity::Item/"Collections">
 
 =back
 
-$obj-E<gt>B<state>
+$obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
 
 =over 4
 
-The state, which is important for some contries but certainly not for
-the smaller ones.  Only set this value when you state has to appear on
-printed addresses.
+See L<User::Identity::Item/"Collections">
 
 =back
 
-$obj-E<gt>B<street>
+$obj-E<gt>B<collection>(NAME)
 
 =over 4
 
-Returns the address of this location.  Since Perl 5.7.3, you can use
-unicode in strings, so why not format the address nicely?
+See L<User::Identity::Item/"Collections">
 
 =back
 
-$obj-E<gt>B<telephone>
+$obj-E<gt>B<find>(COLLECTION, ROLE)
 
 =over 4
 
-One or more phone numbers.  Please use the internation notation, which
-starts with C<'+'>, for instance C<+31-26-12131>.  In scalar context,
-only the first number is produced.  In list context, all numbers are
-presented.
+See L<User::Identity::Item/"Collections">
 
 =back
 
-$obj-E<gt>B<user>([USER])
+$obj-E<gt>B<parent>([PARENT])
 
 =over 4
 
-See L<User::Identity::Collection::Item/"Attributes">
+See L<User::Identity::Item/"Collections">
+
+=back
+
+$obj-E<gt>B<type>
+
+Mail::Identity-E<gt>B<type>
+
+=over 4
+
+See L<User::Identity::Item/"Collections">
+
+=back
+
+$obj-E<gt>B<user>
+
+=over 4
+
+See L<User::Identity::Item/"Collections">
 
 =back
 
 
 
+=head1 DIAGNOSTICS
+
+I<Error:> $object is not a collection.
+
+The first argument is an object, but not of a class which extends
+L<User::Identity::Collection|User::Identity::Collection>.
+
+I<Error:> Cannot load collection module for $type ($class).
+
+Either the specified $type does not exist, or that module named $class returns
+compilation errors.  If the type as specified in the warning is not
+the name of a package, you specified a nickname which was not defined.
+Maybe you forgot the 'require' the package which defines the nickname.
+
+I<Error:> Creation of a collection via $class failed.
+
+The $class did compile, but it was not possible to create an object
+of that class using the options you specified.
+
+I<Error:> Don't know what type of collection you want to add.
+
+If you add a collection, it must either by a collection object or a
+list of options which can be used to create a collection object.  In
+the latter case, the type of collection must be specified.
+
+I<Warning:> No collection $name
+
+The collection with $name does not exist and can not be created.
 
 
 
+
+
+
+=head1 REFERENCES
+
+See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
+
+=head1 COPYRIGHTS
+
+User::Identity version 0.07.
+Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
+other contributors.
+
+Copyright (c) 2003 by the author(s). All rights reserved.  This program
+is free software; you can redistribute it and/or modify it under the
+same terms as Perl itself.
 
 

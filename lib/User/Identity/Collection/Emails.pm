@@ -1,6 +1,6 @@
 package User::Identity::Collection::Emails;
 use vars '$VERSION';
-$VERSION = '0.06';
+$VERSION = '0.07';
 use base 'User::Identity::Collection';
 
 use strict;
@@ -11,7 +11,7 @@ use Mail::Identity;
 
 sub new(@)
 {   my $class = shift;
-    $class->SUPER::new(emails => @_);
+    $class->SUPER::new(name => 'emails', @_);
 }
 
 sub init($)
@@ -19,10 +19,9 @@ sub init($)
     $args->{item_type} ||= 'Mail::Identity';
 
     $self->SUPER::init($args);
-    $self;
 }
 
-#-----------------------------------------
+sub type() { 'mailgroup' }
 
 1;
 

@@ -1,13 +1,16 @@
 package Mail::Identity;
 use vars '$VERSION';
-$VERSION = '0.06';
-use base 'User::Identity::Collection::Item';
+$VERSION = '0.07';
+use base 'User::Identity::Item';
 
 use strict;
 use warnings;
 
 use User::Identity;
 use Scalar::Util 'weaken';
+
+
+sub type() { "email" }
 
 
 sub init($)
@@ -27,8 +30,6 @@ sub init($)
 
    $self;
 }
-
-#-----------------------------------------
 
 
 sub from($)
@@ -53,9 +54,6 @@ sub from($)
 }
 
 
-#-----------------------------------------
-
-
 sub comment($)
 {   my $self = shift;
     return $self->{MI_comment} = shift if @_;
@@ -66,8 +64,6 @@ sub comment($)
     $self->phrase eq $full ? undef : $full;
 }
 
-#-----------------------------------------
-
 
 sub charset()
 {   my $self = shift;
@@ -76,8 +72,6 @@ sub charset()
     my $user = $self->user     or return undef;
     $user->charset;
 }
-
-#-----------------------------------------
 
 
 sub language()
@@ -89,8 +83,6 @@ sub language()
     $user->language;
 }
 
-#-----------------------------------------
-
 
 sub domain()
 {   my $self = shift;
@@ -100,8 +92,6 @@ sub domain()
     my $address = $self->{MI_address} or return 'localhost';
     $address =~ s/.*?\@// ? $address : undef;
 }
-
-#-----------------------------------------
 
 
 sub address()
@@ -117,8 +107,6 @@ sub address()
     my $user = $self->user;
     defined $user ? $user->nickname : $name;
 }
-
-#-----------------------------------------
 
 
 sub location()
@@ -138,8 +126,6 @@ sub location()
     $location;
 }
 
-#-----------------------------------------
-
 
 sub organization()
 {   my $self = shift;
@@ -151,23 +137,16 @@ sub organization()
 }
 
 #pgp_key
-#-----------------------------------------
-
 
 sub phrase()
 {  my $self = shift;
     return $self->{MI_phrase} if defined $self->{MI_phrase};
-
     my $user = $self->user     or return undef;
     my $full = $user->fullName or return undef;
     $full;
 }
 
-#-----------------------------------------
-
 #signature
-
-#-----------------------------------------
 
 
 sub username()
@@ -182,8 +161,6 @@ sub username()
     my $user = $self->user or return;
     $user->nickname;
 }
-
-#-----------------------------------------
 
 1;
 

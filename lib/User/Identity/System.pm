@@ -1,13 +1,16 @@
 package User::Identity::System;
 use vars '$VERSION';
-$VERSION = '0.06';
-use base 'User::Identity::Collection::Item';
+$VERSION = '0.07';
+use base 'User::Identity::Item';
 
 use strict;
 use warnings;
 
 use User::Identity;
 use Scalar::Util 'weaken';
+
+
+sub type { "network" }
 
 
 sub init($)
@@ -21,28 +24,17 @@ sub init($)
    $self;
 }
 
-#-----------------------------------------
-
 
 sub hostname() { shift->{UIS_hostname} }
-
-#-----------------------------------------
 
 
 sub username() { shift->{UIS_username} }
 
-#-----------------------------------------
-
 
 sub os() { shift->{UIS_os} }
 
-#-----------------------------------------
-
 
 sub password() { shift->{UIS_password} }
-
-
-#-----------------------------------------
 
 
 sub location()

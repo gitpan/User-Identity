@@ -1,6 +1,6 @@
 package User::Identity::Collection;
 use vars '$VERSION';
-$VERSION = '0.06';
+$VERSION = '0.07';
 use base 'User::Identity::Item';
 
 use strict;
@@ -17,12 +17,13 @@ use overload '""' => sub {
    $self->name . ": " . join(", ", sort map {$_->name} $self->roles);
 };
 
-#-----------------------------------------
-
 
 use overload '@{}' => sub { [ shift->roles ] };
 
 #-----------------------------------------
+
+
+sub type { "people" }
 
 
 sub init($)
@@ -31,12 +32,8 @@ sub init($)
     exists $args->{$_} && ($self->{'UIC_'.$_} = delete $args->{$_})
         foreach qw/item_type/;
 
-    $self->SUPER::init($args);
+    defined($self->SUPER::init($args)) or return;
     
-    if(my $user = delete $args->{user})
-    {   $self->user($user);
-    }
- 
     $self->{UIC_roles} = { };
     my $roles = $args->{roles};
  
@@ -46,7 +43,6 @@ sub init($)
      :                         $roles;
  
     $self->addRole($_) foreach @roles;
- 
     $self;
 }
 
@@ -75,26 +71,9 @@ sub addRole(@)
             unless defined $role;
     }
 
-    $role->user($self->user);
+    $role->parent($self);
     $self->{UIC_roles}{$role->name} = $role;
     $role;
-}
-
-#-----------------------------------------
-
-
-sub user(;$)
-{   my $self = shift;
-
-    if(@_)
-    {   my $user = shift;
-        $self->{UIC_user} = $user;
-
-        weaken($self->{UIC_user}) if defined $user;
-        $_->user($user) foreach $self->roles;
-    }
-
-    $self->{UIC_user};
 }
 
 #-----------------------------------------

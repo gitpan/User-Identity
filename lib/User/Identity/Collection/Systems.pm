@@ -1,6 +1,6 @@
 package User::Identity::Collection::Systems;
 use vars '$VERSION';
-$VERSION = '0.06';
+$VERSION = '0.07';
 use base 'User::Identity::Collection';
 
 use strict;
@@ -23,7 +23,7 @@ sub init($)
     $self;
 }
 
-#-----------------------------------------
+sub type() { 'network' }
 
 1;
 
