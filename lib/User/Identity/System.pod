@@ -189,7 +189,7 @@ See the User::Identity website at L<http://perl.overmeer.net/userid/> for more d
 
 =head1 COPYRIGHTS
 
-User::Identity version 0.05.
+User::Identity version 0.06.
 Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
 other contributors.
 

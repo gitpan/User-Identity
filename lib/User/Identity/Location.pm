@@ -1,6 +1,6 @@
 package User::Identity::Location;
 use vars '$VERSION';
-$VERSION = '0.05';
+$VERSION = '0.06';
 use base 'User::Identity::Collection::Item';
 
 use strict;

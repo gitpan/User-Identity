@@ -1,6 +1,6 @@
 package User::Identity::Collection;
 use vars '$VERSION';
-$VERSION = '0.05';
+$VERSION = '0.06';
 use base 'User::Identity::Item';
 
 use strict;
