@@ -1,6 +1,6 @@
 package User::Identity::Collection;
 use vars '$VERSION';
-$VERSION = '0.07';
+$VERSION = '0.90';
 use base 'User::Identity::Item';
 
 use strict;
@@ -8,7 +8,6 @@ use warnings;
 
 use User::Identity;
 use Carp;
-use Scalar::Util qw/weaken/;
 use List::Util   qw/first/;
 
 
@@ -29,11 +28,9 @@ sub type { "people" }
 sub init($)
 {   my ($self, $args) = @_;
 
-    exists $args->{$_} && ($self->{'UIC_'.$_} = delete $args->{$_})
-        foreach qw/item_type/;
-
     defined($self->SUPER::init($args)) or return;
     
+    $self->{UIC_itype} = delete $args->{item_type} or die;
     $self->{UIC_roles} = { };
     my $roles = $args->{roles};
  
@@ -54,11 +51,16 @@ sub roles() { values %{shift->{UIC_roles}} }
 #-----------------------------------------
 
 
+sub itemType { shift->{UIC_itype} }
+
+#-----------------------------------------
+
+
 sub addRole(@)
 {   my $self = shift;
+    my $maintains = $self->itemType;
 
     my $role;
-    my $maintains = $self->{UIC_item_type};
     if(ref $_[0] && ref $_[0] ne 'ARRAY')
     {   $role = shift;
         croak "ERROR: Wrong type of role for ".ref($self)
@@ -75,6 +77,44 @@ sub addRole(@)
     $self->{UIC_roles}{$role->name} = $role;
     $role;
 }
+
+#-----------------------------------------
+
+
+sub removeRole($)
+{   my ($self, $which) = @_;
+    my $name = ref $which ? $which->name : $which;
+    my $role = delete $self->{UIC_roles}{$name} or return ();
+    $role->parent(undef);
+    $role;
+}
+
+#-----------------------------------------
+
+
+sub renameRole($$$)
+{   my ($self, $which, $newname) = @_;
+    my $name = ref $which ? $which->name : $which;
+
+    if(exists $self->{UIC_roles}{$newname})
+    {   $self->log(ERROR=>"Cannot rename $name into $newname: already exists");
+        return ();
+    }
+
+    my $role = delete $self->{UIC_roles}{$name};
+    unless(defined $role)
+    {   $self->log(ERROR => "Cannot rename $name into $newname: doesn't exist");
+        return ();
+    }
+
+    $role->name($newname);   # may imply change other attributes.
+    $self->{UIC_roles}{$newname} = $role;
+}
+
+#-----------------------------------------
+
+
+sub sorted() { sort {$a->name cmp $b->name} shift->roles}
 
 #-----------------------------------------
 

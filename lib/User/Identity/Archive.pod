@@ -1,184 +1,65 @@
 
 =head1 NAME
 
-Mail::Identity - an e-mail role
+User::Identity::Archive - base class for archiving user information
 
 
 =head1 INHERITANCE
 
- Mail::Identity
+ User::Identity::Archive
    is a User::Identity::Item
+
+ User::Identity::Archive is extended by
+   User::Identity::Archive::Plain
 
 
 =head1 SYNOPSIS
 
- use User::Identity;
- use Mail::Identity;
- my $me   = User::Identity->new(...);
- my $addr = Mail::Identity->new(address => 'x@y');
- $me->add(email => $addr);
-
- # Simpler
-
- use User::Identity;
- my $me   = User::Identity->new(...);
- my $addr = $me->add(email => 'x@y');
- my $addr = $me->add( email => 'home'
-                    , address => 'x@y');
-
- # Conversion
- my $ma   = Mail::Address->new(...);
- my $mi   = Mail::Identity->coerce($ma);
+ use User::Identity::Archive::Plain;
+ my $friends = User::Identity::Archive::Plain->new('friends');
+ $friends->from(\*FH);
+ $friends->from('.friends');
 
 
 =head1 DESCRIPTION
 
-The C<Mail::Identity> object contains the description of role played by
-a human when sending e-mail.  Most people have more than one role these
-days: for instance, a private and a company role with different e-mail
-addresses.
+An archive stores collections. It depends on the type of archive how and
+where that is done.  Some archivers may limit the kinds of selections
+which can be stored.
 
-An C<Mail::Identity> object combines an e-mail address, user description
-("phrase"), a signature, pgp-key, and so on.  All fields are optional,
-and some fields are smart.  One such set of data represents one role.
-C<Mail::Identity> is therefore the smart cousine of the Mail::Address
-object.
+
+=head1 OVERLOADED
 
 
 
 =head1 METHODS
 
 
-=head2 Initiation
-
-
-Mail::Identity-E<gt>B<new>([NAME], OPTIONS)
-
-=over 4
-
- Option        Defined in       Default                                 
- address                        <username@domain or name>               
- charset                        <user's charset>                        
- comment                        <user's fullname if phrase is different>
- description   L<User::Identity::Item>  undef                                   
- domain                         <from email or localhost>               
- language                       <from user>                             
- location                       <random user's location>                
- name          L<User::Identity::Item>  <phrase or user's fullName>             
- organization                   <location's organization>               
- parent        L<User::Identity::Item>  C<undef>                                
- pgp_key                        undef                                   
- phrase                         <user's fullName>                       
- signature                      undef                                   
- username                       <from address or user's nickname>       
-
-. address STRING
-
-=over 4
-
-The e-mail address is constructed from the username/domain, but
-when both do not exist, the name is taken.
-
-=back
-
-. charset STRING
-
-. comment STRING
-
-. description STRING
-
-. domain STRING
-
-. language STRING
-
-. location NAME|OBJECT
-
-=over 4
-
-The user's location which relates to this mail identity.  This can be
-specified as location name (which will be looked-up when needed), or
-as L<User::Identity::Location|User::Identity::Location> object.
-
-=back
-
-. name STRING
-
-. organization STRING
-
-=over 4
-
-Usually defined for e-mail addresses which are used by a company or
-other organization, but less common for personal addresses.  This
-value will be used to fill the C<Organization> header field of messages.
-
-=back
-
-. parent OBJECT
-
-. pgp_key STRING|FILENAME
-
-. phrase STRING
-
-. signature STRING
-
-. username STRING
-
-=back
-
 =head2 Constructors
 
 
-$obj-E<gt>B<from>(OBJECT)
+User::Identity::Archive-E<gt>B<new>([NAME], OPTIONS)
 
 =over 4
 
-Convert an OBJECT into a C<Mail::Identity>.  On the moment, you can
-specify Mail::Address and L<User::Identity|User::Identity> objects.  In the
-former case, a new C<Mail::Identity> is created containing the same
-information.  In the latter, the first address of the user is picked
-and returned.
+ Option       Defined in       Default   
+ description  L<User::Identity::Item>  undef     
+ from                          C<undef>  
+ name         L<User::Identity::Item>  <required>
+ parent       L<User::Identity::Item>  C<undef>  
+
+. description STRING
+
+. from FILEHANDLE|FILENAME
+
+. name STRING
+
+. parent OBJECT
 
 =back
 
 =head2 Attributes
 
-
-$obj-E<gt>B<address>
-
-=over 4
-
-Returns the e-mail address for this role.  If none was specified, it will
-be constructed from the username and domain.  If those are not present
-as well, then the L<name()|User::Identity::Item/"Attributes"> is used when it contains a C<@>, else the
-user's nickname is taken.
-
-=back
-
-$obj-E<gt>B<charset>
-
-=over 4
-
-Returns the character set used in comment and phrase.  When set to
-C<undef>, the strings (are already encoded to) contain only ASCII
-characters.  This defaults to the value of the user's charset, if a user
-is defined.
-
-=back
-
-$obj-E<gt>B<comment>([STRING])
-
-=over 4
-
-E-mail address -when included in message MIME headers- can contain a comment.
-The RFCs advice not to store useful information in these comments, but it
-you really want to, you can do it.  The comment defaults to the user's
-fullname if the phrase is not the fullname and there is a user defined.
-
-Comments will be enclosed in parenthesis when used. Parenthesis (matching)
-or non-matching) which are already in the string will carefully escaped
-when needed.  You do not need to worry.
-
-=back
 
 $obj-E<gt>B<description>
 
@@ -188,75 +69,11 @@ See L<User::Identity::Item/"Attributes">
 
 =back
 
-$obj-E<gt>B<domain>
-
-=over 4
-
-The domain is the part of the e-mail address after the C<@>-sign.
-When this is not defined, it can be deducted from the email address
-(see L<address()|Mail::Identity/"Attributes">).  If nothing is known, C<localhost> is returned.
-
-=back
-
-$obj-E<gt>B<language>
-
-=over 4
-
-Returns the language which is used for the description fields of this
-e-mail address, which defaults to the user's language.
-
-=back
-
-$obj-E<gt>B<location>
-
-=over 4
-
-Returns the object which describes to which location this mail address relates.
-The location may be used to find the name of the organization involved, or
-to create a signature.  If no location is specified, but a user is defined
-which has locations, one of those is randomly chosen.
-
-=back
-
-$obj-E<gt>B<name>
+$obj-E<gt>B<name>([NEWNAME])
 
 =over 4
 
 See L<User::Identity::Item/"Attributes">
-
-=back
-
-$obj-E<gt>B<organization>
-
-=over 4
-
-Returns the organization which relates to this e-mail identity.  If not
-explicitly specified, it is tried to be found via the location.
-
-=back
-
-$obj-E<gt>B<phrase>
-
-=over 4
-
-The phrase is used in an e-mail address to explain who is sending the
-message.  This usually is the fullname (the user's fullname is used by
-default), description of your function (Webmaster), or any other text.
-
-When an email string is produced, the phase will be quoted if needed.
-Quotes which are within the string will automatically be escaped, so
-you do no need to worry: input cannot break the outcome!
-
-=back
-
-$obj-E<gt>B<username>
-
-=over 4
-
-Returns the username of this e-mail address.  If none is specified, first
-it is tried to extract it from the specified e-mail address.  If there is
-also no username in the e-mail address, the user identity's nickname is
-taken.
 
 =back
 
@@ -303,9 +120,17 @@ See L<User::Identity::Item/"Collections">
 
 =back
 
+$obj-E<gt>B<removeCollection>(OBJECT|NAME)
+
+=over 4
+
+See L<User::Identity::Item/"Collections">
+
+=back
+
 $obj-E<gt>B<type>
 
-Mail::Identity-E<gt>B<type>
+User::Identity::Archive-E<gt>B<type>
 
 =over 4
 
@@ -318,6 +143,28 @@ $obj-E<gt>B<user>
 =over 4
 
 See L<User::Identity::Item/"Collections">
+
+=back
+
+=head2 Access to the archive
+
+
+$obj-E<gt>B<from>(SOURCE, OPTIONS)
+
+=over 4
+
+Read definitions from the specified SOURCE, which usually can be a
+filehandle or filename.  The syntax used in the information SOURCE
+is archiver dependent.
+
+Not all archivers implement C<from()>, so you may want to check with
+C<UNIVERSAL::can()> beforehand.
+
+I<Example:> 
+
+ use User::Identity::Archive::Some;
+ my $a = User::Identity::Archive::Some->new('xyz');
+ $a->from(\*STDIN) if $a->can('from');
 
 =back
 
@@ -363,7 +210,7 @@ See the User::Identity website at L<http://perl.overmeer.net/userid/> for more d
 
 =head1 COPYRIGHTS
 
-User::Identity version 0.07.
+User::Identity version 0.90.
 Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
 other contributors.
 

@@ -49,8 +49,20 @@ object.
 =head1 METHODS
 
 
-=head2 Initiation
+=head2 Constructors
 
+
+$obj-E<gt>B<from>(OBJECT)
+
+=over 4
+
+Convert an OBJECT into a C<Mail::Identity>.  On the moment, you can
+specify Mail::Address and L<User::Identity|User::Identity> objects.  In the
+former case, a new C<Mail::Identity> is created containing the same
+information.  In the latter, the first address of the user is picked
+and returned.
+
+=back
 
 Mail::Identity-E<gt>B<new>([NAME], OPTIONS)
 
@@ -122,21 +134,6 @@ value will be used to fill the C<Organization> header field of messages.
 . signature STRING
 
 . username STRING
-
-=back
-
-=head2 Constructors
-
-
-$obj-E<gt>B<from>(OBJECT)
-
-=over 4
-
-Convert an OBJECT into a C<Mail::Identity>.  On the moment, you can
-specify Mail::Address and L<User::Identity|User::Identity> objects.  In the
-former case, a new C<Mail::Identity> is created containing the same
-information.  In the latter, the first address of the user is picked
-and returned.
 
 =back
 
@@ -218,7 +215,7 @@ which has locations, one of those is randomly chosen.
 
 =back
 
-$obj-E<gt>B<name>
+$obj-E<gt>B<name>([NEWNAME])
 
 =over 4
 
@@ -303,6 +300,14 @@ See L<User::Identity::Item/"Collections">
 
 =back
 
+$obj-E<gt>B<removeCollection>(OBJECT|NAME)
+
+=over 4
+
+See L<User::Identity::Item/"Collections">
+
+=back
+
 $obj-E<gt>B<type>
 
 Mail::Identity-E<gt>B<type>
@@ -363,7 +368,7 @@ See the User::Identity website at L<http://perl.overmeer.net/userid/> for more d
 
 =head1 COPYRIGHTS
 
-User::Identity version 0.07.
+User::Identity version 0.90.
 Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
 other contributors.
 

@@ -1,6 +1,6 @@
 package User::Identity::Item;
 use vars '$VERSION';
-$VERSION = '0.07';
+$VERSION = '0.90';
 
 use strict;
 use warnings;
@@ -41,7 +41,10 @@ sub init($)
 #-----------------------------------------
 
 
-sub name() { shift->{UII_name} }
+sub name(;$)
+{   my $self = shift;
+    @_ ? ($self->{UII_name} = shift) : $self->{UII_name};
+}
 
 #-----------------------------------------
 
@@ -88,6 +91,17 @@ sub addCollection(@)
 
     $object->parent($self);
     $self->{UI_col}{$object->name} = $object;
+}
+
+#-----------------------------------------
+
+
+sub removeCollection($)
+{   my $self = shift;
+    my $name = ref $_[0] ? $_[0]->name : $_[0];
+
+       delete $self->{UI_col}{$name}
+    || delete $self->{UI_col}{$name.'s'};
 }
 
 #-----------------------------------------
@@ -140,7 +154,11 @@ sub type { "item" }
 
 sub parent(;$)
 {   my $self = shift;
-    @_ ? ($self->{UII_parent} = shift) : $self->{UII_parent};
+    return $self->{UII_parent} unless @_;
+
+    $self->{UII_parent} = shift;
+    weaken($self->{UII_parent});
+    $self->{UII_parent};
 }
 
 

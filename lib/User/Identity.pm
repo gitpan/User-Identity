@@ -1,6 +1,6 @@
 package User::Identity;
 use vars '$VERSION';
-$VERSION = '0.07';
+$VERSION = '0.90';
 use base 'User::Identity::Item';
 
 use strict;

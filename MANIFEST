@@ -29,3 +29,4 @@ lib/User/Identity/System.pod
 t/10userid.t
 t/20loc.t
 t/30col.t
+META.yml                                 Module meta-data (added by MakeMaker)

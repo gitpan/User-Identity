@@ -1,7 +1,7 @@
 
 package User::Identity::Archive::Plain;
 use vars '$VERSION';
-$VERSION = '0.07';
+$VERSION = '0.90';
 use base 'User::Identity::Archive';
 
 use strict;
