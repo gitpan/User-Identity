@@ -17,13 +17,13 @@ User::Identity::Collection - base class for collecting roles of a user
 
  use User::Identity;
  use User::Identity::Collection;
- my $me    = User::Indentity->new(...);
+ my $me    = User::Identity->new(...);
  my $set   = User::Identity::Collection::Email->new(...);
  $me->addCollection($set);
 
  # Simpler
  use User::Identity;
- my $me    = User::Indentity->new(...);
+ my $me    = User::Identity->new(...);
  my $set   = $me->addCollection(type => 'email', ...)
 
  my @roles = $me->collection('email');  # list of collected items
@@ -208,7 +208,7 @@ with the help of many.  See the ChangeLog for details.
 
 =head1 VERSION
 
-This code is beta, version 0.03.
+This code is beta, version 0.04.
 
 Copyright (c) 2003 by the authors. All rights reserved.
 This program is free software; you can redistribute it and/or modify

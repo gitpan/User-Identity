@@ -1,5 +1,5 @@
 package User::Identity;
-our $VERSION = 0.03;  # Part of User::Identity
+our $VERSION = 0.04;  # Part of User::Identity
 use base 'User::Identity::Item';
 
 use strict;

@@ -1,15 +1,15 @@
 package User::Identity::Collection::Systems;
-our $VERSION = 0.03;  # Part of User::Identity
+our $VERSION = 0.04;  # Part of User::Identity
 use base 'User::Identity::Collection';
 
 use strict;
 use warnings;
 
-use Mail::Identity;
+use User::Identity::System;
 
 sub new(@)
 {   my $class = shift;
-    $class->SUPER::new(emails => @_);
+    $class->SUPER::new(systems => @_);
 }
 
 sub init($)

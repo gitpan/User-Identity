@@ -14,9 +14,9 @@ User::Identity::Collection::Systems - a collection of system descriptions
 
 =head1 DESCRIPTION
 
-The User::Identity::Collection::Email object maintains a set
-Mail::Identity objects, each describing a role which the user has
-in e-mail traffic.
+The User::Identity::Collection::Systems object maintains a set
+Use:::Identity::System objects, each describing a login for the
+user on some system.
 
 =head1 METHODS
 
@@ -118,7 +118,7 @@ with the help of many.  See the ChangeLog for details.
 
 =head1 VERSION
 
-This code is beta, version 0.03.
+This code is beta, version 0.04.
 
 Copyright (c) 2003 by the authors. All rights reserved.
 This program is free software; you can redistribute it and/or modify
