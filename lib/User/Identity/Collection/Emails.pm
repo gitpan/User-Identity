@@ -1,11 +1,13 @@
 package User::Identity::Collection::Emails;
-our $VERSION = 0.04;  # Part of User::Identity
+use vars '$VERSION';
+$VERSION = '0.05';
 use base 'User::Identity::Collection';
 
 use strict;
 use warnings;
 
 use Mail::Identity;
+
 
 sub new(@)
 {   my $class = shift;
@@ -17,9 +19,10 @@ sub init($)
     $args->{item_type} ||= 'Mail::Identity';
 
     $self->SUPER::init($args);
-
     $self;
 }
+
+#-----------------------------------------
 
 1;
 

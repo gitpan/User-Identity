@@ -1,0 +1,114 @@
+
+=head1 NAME
+
+User::Identity::Item - general base class for User::Identity
+
+
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+The C<User::Identity::Item> base class is extended into useful modules: it
+has no use by its own.
+
+
+
+=head1 METHODS
+
+
+=head2 Initiation
+
+
+User::Identity::Item-E<gt>B<new>([NAME], OPTIONS)
+
+=over 4
+
+ Option       Defined in       Default   
+ description                   undef     
+ name                          <required>
+
+. description STRING
+
+=over 4
+
+Free format description on the collected item.
+
+=back
+
+. name STRING
+
+=over 4
+
+A simple name for this location, like C<'home'> or C<'work'>.  Anything is
+permitted as name.
+
+=back
+
+=back
+
+=head2 Attributes
+
+
+$obj-E<gt>B<description>
+
+=over 4
+
+Free format description on this item.  Please do not add
+any significance to the content of this field: if you are in need
+for an extra attribute, please contact the author of the module to
+implement it, or extend the object to suit your needs.
+
+=back
+
+$obj-E<gt>B<name>
+
+=over 4
+
+The name of this item.  Names are unique within a collection... a second
+object with the same name within any collection will destroy the already
+existing object with that name.
+
+=back
+
+
+
+=head1 DIAGNOSTICS
+
+I<Error:> Each item requires a name
+
+You have to specify a name for each item.  These names need to be
+unique within one collection, but feel free to give the same name
+to an e-mail address and a location.
+
+I<Warning:> Unknown option $name for a $class
+
+One used option is not defined.  Check the manual page of the class to
+see which options are accepted.
+
+I<Warning:> Unknown options @names for a $class
+
+More than one option is not defined.
+
+
+
+
+
+
+=head1 REFERENCES
+
+See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
+
+=head1 COPYRIGHTS
+
+User::Identity version 0.05.
+Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
+other contributors.
+
+Copyright (c) 2003 by the author(s). All rights reserved.  This program
+is free software; you can redistribute it and/or modify it under the
+same terms as Perl itself.
+
+

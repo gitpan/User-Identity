@@ -3,11 +3,13 @@
 
 User::Identity::Location - physical location of a person
 
-=head1 CLASS INHERITANCE
+
+=head1 INHERITANCE
 
  User::Identity::Location
    is a User::Identity::Collection::Item
    is a User::Identity::Item
+
 
 =head1 SYNOPSIS
 
@@ -23,176 +25,220 @@ User::Identity::Location - physical location of a person
  my $me   = User::Identity->new(...);
  my $addr = $me->add(location => ...);
 
+
 =head1 DESCRIPTION
 
-The User::Identity::Location object contains the description of a physical
+The C<User::Identity::Location> object contains the description of a physical
 location of a person: home, work, travel.  The locations are collected
-by a User::Identity::Collection::Locations object.
+by a L<User::Identity::Collection::Locations|User::Identity::Collection::Locations> object.
 
-Nearly all methods can return undef.  Some methods produce language or
+Nearly all methods can return C<undef>.  Some methods produce language or
 country specific output.
+
+
 
 =head1 METHODS
 
+
 =head2 Initiation
+
+
+User::Identity::Location-E<gt>B<new>([NAME], OPTIONS)
 
 =over 4
 
-=item B<new> [NAME], OPTIONS
-
-(Class method) 
 Create a new location.  You can specify a name as first argument, or
 in the OPTION list.  Without a specific name, the organization is used as name.
 
- OPTION               DEFAULT
- country              undef
- country_code         undef
- description          undef
- fax                  undef
- name                 <required>
- organization         undef
- pobox                undef
- pobox_pc             undef
- postal_code          undef
- state                undef
- street               undef
- telephone            undef
- user                 undef
+ Option        Defined in       Default   
+ country                        undef     
+ country_code                   undef     
+ description   L<User::Identity::Item>  undef     
+ fax                            undef     
+ name          L<User::Identity::Item>  <required>
+ organization                   undef     
+ pobox                          undef     
+ pobox_pc                       undef     
+ postal_code                    undef     
+ state                          undef     
+ street                         undef     
+ telephone                      undef     
+ user          L<User::Identity::Collection::Item>  undef     
 
-=over 4
+. country STRING
 
-=item B<country> =E<gt> STRING
+. country_code STRING
 
-=item B<country_code> =E<gt> STRING
+. description STRING
 
-=item B<description> =E<gt> STRING
+. fax STRING|ARRAY
 
-See User::Identity::Item::new(description)
+. name STRING
 
-=item B<fax> =E<gt> STRING|ARRAY
+. organization STRING
 
-=item B<name> =E<gt> STRING
+. pobox STRING
 
-See User::Identity::Item::new(name)
+. pobox_pc STRING
 
-=item B<organization> =E<gt> STRING
+. postal_code STRING
 
-=item B<pobox> =E<gt> STRING
+. state STRING
 
-=item B<pobox_pc> =E<gt> STRING
+. street STRING
 
-=item B<postal_code> =E<gt> STRING
+. telephone STRING|ARRAY
 
-=item B<state> =E<gt> STRING
-
-=item B<street> =E<gt> STRING
-
-=item B<telephone> =E<gt> STRING|ARRAY
-
-=item B<user> =E<gt> OBJECT
-
-See User::Identity::Collection::Item::new(user)
-
-=back
+. user OBJECT
 
 =back
 
 =head2 Attributes
 
-=over 4
 
-=item B<city> 
+$obj-E<gt>B<city>
+
+=over 4
 
 The city where the address is located.
 
-=item B<country> 
+=back
+
+$obj-E<gt>B<country>
+
+=over 4
 
 The country where the address is located.  If the name of the country is
 not known but a country code is defined, the name will be looked-up
 using Geography::Countries (if installed).
 
-=item B<countryCode> 
+=back
+
+$obj-E<gt>B<countryCode>
+
+=over 4
 
 Each country has an ISO standard abbreviation.  Specify the country or the
 country code, and the other will be filled in automatically.
 
-=item B<description> 
+=back
 
-See User::Identity::Item::description()
+$obj-E<gt>B<description>
 
-=item B<fax> 
+=over 4
 
-One or more fax numbers. Like the telephone() method above.
+See L<User::Identity::Item/"Attributes">
 
-=item B<fullAddress> 
+=back
+
+$obj-E<gt>B<fax>
+
+=over 4
+
+One or more fax numbers, like L<telephone()|User::Identity::Location/"Attributes">.
+
+=back
+
+$obj-E<gt>B<fullAddress>
+
+=over 4
 
 Create an address to put on a postal mailing, in the format as normal in
 the country where it must go to.  To be able to achieve that, the country
 code must be known.  If the city is not specified or no street or pobox is
 given, undef will be returned: an incomplete address.
 
+I<Example:> 
+
  print $uil->fullAddress;
  print $user->find(location => 'home')->fullAddress;
 
-=item B<name> 
+=back
 
-See User::Identity::Item::name()
+$obj-E<gt>B<name>
 
-=item B<organization> 
+=over 4
+
+See L<User::Identity::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<organization>
+
+=over 4
 
 The organization (for instance company) which is related to this location.
 
-=item B<pobox> 
+=back
+
+$obj-E<gt>B<pobox>
+
+=over 4
 
 Post Office mail box specification.  Use C<"P.O.Box 314">, not simple C<314>.
 
-=item B<poboxPostalCode> 
+=back
+
+$obj-E<gt>B<poboxPostalCode>
+
+=over 4
 
 The postal code related to the Post-Office mail box.  Defined by new() option
 C<pobox_pc>.
 
-=item B<postalCode> 
+=back
+
+$obj-E<gt>B<postalCode>
+
+=over 4
 
 The postal code is very country dependent.  Also, the location of the
 code within the formatted string is country dependent.
 
-=item B<state> 
+=back
+
+$obj-E<gt>B<state>
+
+=over 4
 
 The state, which is important for some contries but certainly not for
 the smaller ones.  Only set this value when you state has to appear on
 printed addresses.
 
-=item B<street> 
+=back
+
+$obj-E<gt>B<street>
+
+=over 4
 
 Returns the address of this location.  Since Perl 5.7.3, you can use
 unicode in strings, so why not format the address nicely?
 
-=item B<telephone> 
+=back
+
+$obj-E<gt>B<telephone>
+
+=over 4
 
 One or more phone numbers.  Please use the internation notation, which
 starts with C<'+'>, for instance C<+31-26-12131>.  In scalar context,
 only the first number is produced.  In list context, all numbers are
 presented.
 
-=item B<user> [USER]
+=back
 
-See User::Identity::Collection::Item::user()
+$obj-E<gt>B<user>([USER])
+
+=over 4
+
+See L<User::Identity::Collection::Item/"Attributes">
 
 =back
 
-=head1 SEE ALSO
 
-See the website at L<http://perl.overmeer.net/userid/>.
 
-=head1 AUTHOR
 
-Written by Mark Overmeer (L<mark@overmeer.net|mailto:mark@overmeer.net>)
-with the help of many.  See the ChangeLog for details.
 
-=head1 VERSION
 
-This code is beta, version 0.04.
 
-Copyright (c) 2003 by the authors. All rights reserved.
-This program is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+

@@ -3,10 +3,12 @@
 
 User::Identity - maintains info about a physical person
 
-=head1 CLASS INHERITANCE
+
+=head1 INHERITANCE
 
  User::Identity
    is a User::Identity::Item
+
 
 =head1 SYNOPSIS
 
@@ -19,103 +21,34 @@ User::Identity - maintains info about a physical person
  print $me->fullName  # prints "John Doe"
  print $me;           # same
 
+
 =head1 DESCRIPTION
 
-The User::Identity object is created to maintain a set of informational
-objects which are related to one user.  The User::Identity module try to
+The C<User::Identity> object is created to maintain a set of informational
+objects which are related to one user.  The C<User::Identity> module tries to
 be smart providing defaults, conversions and often required combinations.
 
 The identities are not implementing any kind of storage, and can therefore
 be created by any simple or complex Perl program.  This way, it is more
 flexible than an XML file to store the data.  For instance, you can decide
-to store the data with Data::Dumper, Storable, DBI, Mail::AddressBook
+to store the data with Data::Dumper, Storable, DBI, AddressBook
 or whatever.  Extension to simplify this task are still to be developed.
 
 If you need more kinds of user information, then please contact the
 module author.
 
-=head1 METHODS
 
-=head2 Initiation
+=head1 OVERLOADED
 
-=over 4
 
-=item B<new> [NAME], OPTIONS
-
-(Class method) 
-Create a new user identity, which will contain all data related 
-to a single physical human being.  Most user data can only be
-specified at object construction, because they should never
-change.  A NAME may be specified as first argument, but also
-as option, one way or the other is required..
-
- OPTION               DEFAULT
- charset              $ENV{LC_CTYPE}
- courtesy             undef
- date_of_birth        undef
- description          undef
- firstname            undef
- formal_name          undef
- full_name            undef
- gender               undef
- initials             undef
- language             'en'
- name                 <required>
- nickname             undef
- prefix               undef
- surname              undef
- titles               undef
+$obj-E<gt>B<stringification>
 
 =over 4
 
-=item B<charset> =E<gt> STRING
-
-=item B<courtesy> =E<gt> STRING
-
-=item B<date_of_birth> =E<gt> DATE
-
-=item B<description> =E<gt> STRING
-
-See User::Identity::Item::new(description)
-
-=item B<firstname> =E<gt> STRING
-
-=item B<formal_name> =E<gt> STRING
-
-=item B<full_name> =E<gt> STRING
-
-=item B<gender> =E<gt> STRING
-
-=item B<initials> =E<gt> STRING
-
-=item B<language> =E<gt> STRING
-
-=item B<name> =E<gt> STRING
-
-See User::Identity::Item::new(name)
-
-=item B<nickname> =E<gt> STRING
-
-=item B<prefix> =E<gt> STRING
-
-=item B<surname> =E<gt> STRING
-
-=item B<titles> =E<gt> STRING
-
-=back
-
-=back
-
-=head2 Overloading
-
-=over 4
-
-=item B<stringification> 
-
-When an User::Identity is used as string, it is automatically
+When an C<User::Identity> is used as string, it is automatically
 translated into the fullName() of the user involved.
 
-Examples:
+I<Example:> 
 
  my $me = User::Identity->new(...)
  print $me;          # same as  print $me->fullName
@@ -123,54 +56,153 @@ Examples:
 
 =back
 
-=head2 Attributes
+
+=head1 METHODS
+
+
+=head2 Initiation
+
+
+User::Identity-E<gt>B<new>([NAME], OPTIONS)
 
 =over 4
 
-=item B<age> 
+Create a new user identity, which will contain all data related 
+to a single physical human being.  Most user data can only be
+specified at object construction, because they should never
+change.  A NAME may be specified as first argument, but also
+as option, one way or the other is required.
+
+ Option         Defined in       Default       
+ charset                         $ENV{LC_CTYPE}
+ courtesy                        undef         
+ date_of_birth                   undef         
+ description    L<User::Identity::Item>  undef         
+ firstname                       undef         
+ formal_name                     undef         
+ full_name                       undef         
+ gender                          undef         
+ initials                        undef         
+ language                        'en'          
+ name           L<User::Identity::Item>  <required>    
+ nickname                        undef         
+ prefix                          undef         
+ surname                         undef         
+ titles                          undef         
+
+. charset STRING
+
+. courtesy STRING
+
+. date_of_birth DATE
+
+. description STRING
+
+. firstname STRING
+
+. formal_name STRING
+
+. full_name STRING
+
+. gender STRING
+
+. initials STRING
+
+. language STRING
+
+. name STRING
+
+. nickname STRING
+
+. prefix STRING
+
+. surname STRING
+
+. titles STRING
+
+=back
+
+=head2 Attributes
+
+
+$obj-E<gt>B<age>
+
+=over 4
 
 Calcuted from the datge of birth to the current moment, as integer.  On the
 birthday, the number is incremented already.
 
-=item B<birth> 
+=back
+
+$obj-E<gt>B<birth>
+
+=over 4
 
 Returns the date in standardized format: YYYYMMDD, easy to sort and
-select.  This may return C<undef>, even if the dateOfBirth() contains
+select.  This may return C<undef>, even if the L<dateOfBirth()|User::Identity/"Attributes"> contains
 a value, simply because the format is not understood. Month or day may
-contain '00' to indicate that those values are not known.
+contain C<'00'> to indicate that those values are not known.
 
-=item B<charset> 
+=back
+
+$obj-E<gt>B<charset>
+
+=over 4
 
 The user's prefered character set, which defaults to the value of
 LC_CTYPE environment variable.
 
-=item B<courtesy> 
+=back
+
+$obj-E<gt>B<courtesy>
+
+=over 4
 
 The courtesy is used to address people in a very formal way.  Values
 are like "Mr.", "Mrs.", "Sir", "Frau", "Heer", "de heer", "mevrouw".
 This often provides a way to find the gender of someone addressed.
 
-=item B<dateOfBirth> 
+=back
+
+$obj-E<gt>B<dateOfBirth>
+
+=over 4
 
 Returns the date of birth, as specified during instantiation.
 
-=item B<description> 
+=back
 
-See User::Identity::Item::description()
+$obj-E<gt>B<description>
 
-=item B<firstname> 
+=over 4
+
+See L<User::Identity::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<firstname>
+
+=over 4
 
 Returns the first name of the user.  If it is not defined explicitly, it
 is derived from the nickname, and than capitalized if needed.
 
-=item B<formalName> 
+=back
+
+$obj-E<gt>B<formalName>
+
+=over 4
 
 Returns a formal name for the user.  If not defined as instantiation
 parameter (see new()), it is constructed from other available information,
 which may result in an incorrect or an incomplete name.  The result is
 built from "courtesy initials prefix surname title".
 
-=item B<fullName> 
+=back
+
+$obj-E<gt>B<fullName>
+
+=over 4
 
 If this is not specified as value during object construction, it is
 guessed based on other known values like "firstname prefix surname". 
@@ -179,54 +211,94 @@ as firstname.  When a firstname is provided without surname, the
 nickname is taken as surname.  If both are not provided, then
 the nickname is used as fullname.
 
-=item B<gender> 
+=back
+
+$obj-E<gt>B<gender>
+
+=over 4
 
 Returns the specified gender of the person, as specified during
 instantiation, which could be like 'Male', 'm', 'homme', 'man'.
 There is no smart behavior on this: the exact specified value is
 returned. Methods isMale(), isFemale(), and courtesy() are smart.
 
-=item B<initials> 
+=back
+
+$obj-E<gt>B<initials>
+
+=over 4
 
 The initials, which may be derived from the first letters of the
 firstname.
 
-=item B<isFemale> 
+=back
+
+$obj-E<gt>B<isFemale>
+
+=over 4
 
 See isMale(): return true if we are sure the user is a woman.
 
-=item B<isMale> 
+=back
+
+$obj-E<gt>B<isMale>
+
+=over 4
 
 Returns true if we are sure that the user is male.  This is specified as
 gender at instantiation, or derived from the courtesy value.  Methods
 isMale and isFemale are not complementatory: they can both return false
 for the same user, in which case the gender is undertermined.
 
-=item B<language> 
+=back
+
+$obj-E<gt>B<language>
+
+=over 4
 
 Can contain a list or a single language name, as defined by the RFC
 Examples are 'en', 'en-GB', 'nl-BE'.  The default language  is 'en'
 (English).
 
-=item B<name> 
+=back
 
-See User::Identity::Item::name()
+$obj-E<gt>B<name>
 
-=item B<nickname> 
+=over 4
+
+See L<User::Identity::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<nickname>
+
+=over 4
 
 Returns the user's nickname, which could be used as username, e-mail
 alias, or such.  When no nickname was explicitly specified, the name is
 used.
 
-=item B<prefix> 
+=back
+
+$obj-E<gt>B<prefix>
+
+=over 4
 
 The words which are between the firstname (or initials) and the surname.
 
-=item B<surname> 
+=back
+
+$obj-E<gt>B<surname>
+
+=over 4
 
 Returns the surname of person, or C<undef> if that is not known.
 
-=item B<titles> 
+=back
+
+$obj-E<gt>B<titles>
+
+=over 4
 
 The titles, degrees in education or of other kind.  If these are complex,
 you may need to specify the formal name of the users as well, because
@@ -236,20 +308,22 @@ smart formatting probably failes.
 
 =head2 Collections
 
+
+$obj-E<gt>B<add>(COLLECTION, ROLE)
+
 =over 4
 
-=item B<add> COLLECTION, ROLE
-
 The ROLE is added to the COLLECTION.  The COLLECTION is the name of a
-collection, which will be created automatically with addCollection() if
+collection, which will be created automatically with L<addCollection()|User::Identity/"Collections"> if
 needed.  The COLLECTION can also be specified as existing collection object.
 
-The ROLE is anything what is acceptable to addRole() of the
+The ROLE is anything what is acceptable to
+L<User::Identity::Collection::addRole()|User::Identity::Collection/"Attributes"> of the
 collection at hand, and is returned.  ROLE typically is a list of
 parameters for one role, or a reference to an array containing these
 values.
 
-Examples:
+I<Example:> 
 
  my $ui   = User::Identity->new(...);
  my $home = $ui->add(location => [home => street => '27 Roadstreet', ...] );
@@ -261,10 +335,14 @@ Examples:
  my $system = User::Identity::Collection::System->new(...);
  $ui->add($system => 'localhost');
 
-=item B<addCollection> OBJECT | ([TYPE], OPTIONS)
+=back
+
+$obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
+
+=over 4
 
 Add a new collection of roles to the user.  This can be achieved in two ways:
-either create an User::Identity::Collection OBJECT yourself and then
+either create an L<User::Identity::Collection|User::Identity::Collection> OBJECT yourself and then
 pass that to this method, or supply all the OPTIONS needed to create such
 an object and it will be created for you.  The object which is added is
 returned, and can be used for many methods directly.
@@ -272,20 +350,20 @@ returned, and can be used for many methods directly.
 For OPTIONS, see the specific type of collection.  Additional options are
 listed below.
 
- OPTION               DEFAULT
- type                 <required>
+ Option  Defined in  Default   
+ type                <required>
+
+. type STRING|CLASS
 
 =over 4
 
-=item B<type> =E<gt> STRING|CLASS
-
 The nickname of a collection class or the CLASS name itself of the
 object to be created.  Required if an object has to be created.
-Predefined type nicknames are C<email> and C<location>.
+Predefined type nicknames are C<email>, C<system>, and C<location>.
 
 =back
 
-Examples:
+I<Example:> 
 
  my $me   = User::Identity->new(...);
  my $locs = User::Identity::Collection::Locations->new();
@@ -294,23 +372,31 @@ Examples:
  my $email = $me->addCollection(type => 'email');
  my $email = $me->addCollection('email');
 
-=item B<collection> NAME
+=back
+
+$obj-E<gt>B<collection>(NAME)
+
+=over 4
 
 In scalar context the collection object with the NAME is returned.
 In list context, all the roles within the collection are returned.
 
-Examples:
+I<Example:> 
 
  my @roles = $me->collection('email');        # list of collected items
  my @roles = $me->collection('email')->roles; # same of collected items
  my $coll  = $me->collection('email');        # a User::Identity::Collection
 
-=item B<find> COLLECTION, ROLE
+=back
+
+$obj-E<gt>B<find>(COLLECTION, ROLE)
+
+=over 4
 
 Returns the object with the specified ROLE within the named collection.
 The collection can be specified as name or object.
 
-Examples:
+I<Example:> 
 
  my $role  = $me->find(location => 'work');       # one location
  my $role  = $me->collection('location')->find('work'); # same
@@ -321,19 +407,54 @@ Examples:
 
 =back
 
-=head1 SEE ALSO
 
-See the website at L<http://perl.overmeer.net/userid/>.
 
-=head1 AUTHOR
+=head1 DIAGNOSTICS
 
-Written by Mark Overmeer (L<mark@overmeer.net|mailto:mark@overmeer.net>)
-with the help of many.  See the ChangeLog for details.
+I<Error:> $object is not a collection.
 
-=head1 VERSION
+The first argument is an object, but not of a class which extends
+User::Identity::Collection.
 
-This code is beta, version 0.04.
+I<Error:> Cannot load collection module $type ($class).
 
-Copyright (c) 2003 by the authors. All rights reserved.
-This program is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+Either the specified $type does not exist, or that module named $class returns
+compilation errors.  If the type as specified in the warning is not
+the name of a package, you specified a nickname which was not defined.
+Maybe you forgot the 'require' the package which defines the nickname.
+
+I<Error:> Creation of a collection via $class failed.
+
+The $class did compile, but it was not possible to create an object
+of that class using the options you specified.
+
+I<Error:> Don't know what type of collection you want to add.
+
+If you add a collection, it must either by a collection object or a
+list of options which can be used to create a collection object.  In
+the latter case, the type of collection must be specified.
+
+I<Warning:> No collection $name
+
+The collection with $name does not exist and can not be created.
+
+
+
+
+
+
+=head1 REFERENCES
+
+See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
+
+=head1 COPYRIGHTS
+
+User::Identity version 0.05.
+Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
+other contributors.
+
+Copyright (c) 2003 by the author(s). All rights reserved.  This program
+is free software; you can redistribute it and/or modify it under the
+same terms as Perl itself.
+
+

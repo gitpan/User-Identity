@@ -1,0 +1,116 @@
+
+=head1 NAME
+
+User::Identity::Collection::Item - base class for any collectable item
+
+
+=head1 INHERITANCE
+
+ User::Identity::Collection::Item
+   is a User::Identity::Item
+
+ User::Identity::Collection::Item is extended by
+   Mail::Identity
+   User::Identity::Location
+   User::Identity::System
+
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+The C<User::Identity::Collection::Item> object is extended into objects which
+contain data to be collected.
+
+
+
+=head1 METHODS
+
+
+=head2 Initiation
+
+
+User::Identity::Collection::Item-E<gt>B<new>([NAME], OPTIONS)
+
+=over 4
+
+ Option       Defined in       Default   
+ description  L<User::Identity::Item>  undef     
+ name         L<User::Identity::Item>  <required>
+ user                          undef     
+
+. description STRING
+
+. name STRING
+
+. user OBJECT
+
+=over 4
+
+Refers to the user (a User::Identity object) who has this item in one of
+his/het collections.  The item may be unrelated to any user.
+
+=back
+
+=back
+
+=head2 Attributes
+
+
+$obj-E<gt>B<description>
+
+=over 4
+
+See L<User::Identity::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<name>
+
+=over 4
+
+See L<User::Identity::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<user>([USER])
+
+=over 4
+
+The user whose address this is.  This is a weak link, which means that
+the location object will be removed when the user object is deleted and
+no other references to this location object exist.
+
+=back
+
+
+
+=head1 DIAGNOSTICS
+
+I<Error:> Each collectable item requires a name
+
+You have to specify a name for each collected item.  These names need to be
+unique within one collection.
+
+
+
+
+
+
+=head1 REFERENCES
+
+See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
+
+=head1 COPYRIGHTS
+
+User::Identity version 0.05.
+Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
+other contributors.
+
+Copyright (c) 2003 by the author(s). All rights reserved.  This program
+is free software; you can redistribute it and/or modify it under the
+same terms as Perl itself.
+
+

@@ -1,0 +1,200 @@
+
+=head1 NAME
+
+User::Identity::System - physical system of a person
+
+
+=head1 INHERITANCE
+
+ User::Identity::System
+   is a User::Identity::Collection::Item
+   is a User::Identity::Item
+
+
+=head1 SYNOPSIS
+
+ use User::Identity;
+ use User::Identity::System;
+ my $me   = User::Identity->new(...);
+ my $server = User::Identity::System->new(...);
+ $me->add(system => $server);
+
+ # Simpler
+
+ use User::Identity;
+ my $me   = User::Identity->new(...);
+ my $addr = $me->add(system => ...);
+
+
+=head1 DESCRIPTION
+
+The C<User::Identity::System> object contains the description of the
+user's presence on a system.  The systems are collected
+by an L<User::Identity::Collection::Systems|User::Identity::Collection::Systems> object.
+
+Nearly all methods can return undef.
+
+
+
+=head1 METHODS
+
+
+=head2 Initiation
+
+
+User::Identity::System-E<gt>B<new>([NAME], OPTIONS)
+
+=over 4
+
+Create a new system.  You can specify a name as first argument, or
+in the OPTION list.  Without a specific name, the organization is used as name.
+
+ Option       Defined in       Default       
+ description  L<User::Identity::Item>  undef         
+ hostname                      C<'localhost'>
+ location                      undef         
+ name         L<User::Identity::Item>  <required>    
+ os                            undef         
+ password                      undef         
+ user         L<User::Identity::Collection::Item>  undef         
+ username                      undef         
+
+. description STRING
+
+. hostname DOMAIN
+
+=over 4
+
+The hostname of the described system.  It is prefered to use full
+system names, not abbreviations.  For instance, you can better use
+C<www.tux.aq> than C<www> to avoid confusion.
+
+=back
+
+. location NICKNAME|OBJECT
+
+=over 4
+
+The NICKNAME of a location which is defined for the same user.  You can
+also specify a L<User::Identity::Location|User::Identity::Location> OBJECT.
+
+=back
+
+. name STRING
+
+. os STRING
+
+=over 4
+
+The name of the operating system which is run on the server.  It is
+adviced to use the names as used by Perl's C<$^O> variable.  See the
+perlvar man-page for this variable, and perlport for the possible
+values.
+
+=back
+
+. password STRING
+
+=over 4
+
+The password to be used to login.  This password must be un-encoded:
+directly usable.  Be warned that storing un-encoded passwords is a
+high security list.
+
+=back
+
+. user OBJECT
+
+. username STRING
+
+=over 4
+
+The username to be used to login to this host.
+
+=back
+
+=back
+
+=head2 Attributes
+
+
+$obj-E<gt>B<description>
+
+=over 4
+
+See L<User::Identity::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<hostname>
+
+=over 4
+
+=back
+
+$obj-E<gt>B<location>
+
+=over 4
+
+Returns the object which describes to which location this system relates.
+The location may be used to find the name of the organization involved, or
+to create a signature.  If no location is specified, undef is returned.
+
+=back
+
+$obj-E<gt>B<name>
+
+=over 4
+
+See L<User::Identity::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<os>
+
+=over 4
+
+=back
+
+$obj-E<gt>B<password>
+
+=over 4
+
+=back
+
+$obj-E<gt>B<user>([USER])
+
+=over 4
+
+See L<User::Identity::Collection::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<username>
+
+=over 4
+
+=back
+
+
+
+
+
+
+
+
+=head1 REFERENCES
+
+See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
+
+=head1 COPYRIGHTS
+
+User::Identity version 0.05.
+Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
+other contributors.
+
+Copyright (c) 2003 by the author(s). All rights reserved.  This program
+is free software; you can redistribute it and/or modify it under the
+same terms as Perl itself.
+
+

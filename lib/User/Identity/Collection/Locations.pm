@@ -1,5 +1,6 @@
 package User::Identity::Collection::Locations;
-our $VERSION = 0.04;  # Part of User::Identity
+use vars '$VERSION';
+$VERSION = '0.05';
 use base 'User::Identity::Collection';
 
 use strict;
@@ -8,6 +9,7 @@ use warnings;
 use User::Identity::Location;
 
 use Carp qw/croak/;
+
 
 sub new(@)
 {   my $class = shift;
@@ -22,6 +24,8 @@ sub init($)
 
     $self;
 }
+
+#-----------------------------------------
 
 1;
 

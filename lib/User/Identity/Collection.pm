@@ -1,5 +1,6 @@
 package User::Identity::Collection;
-our $VERSION = 0.04;  # Part of User::Identity
+use vars '$VERSION';
+$VERSION = '0.05';
 use base 'User::Identity::Item';
 
 use strict;
@@ -10,41 +11,52 @@ use Carp;
 use Scalar::Util qw/weaken/;
 use List::Util   qw/first/;
 
-sub init($)
-{   my ($self, $args) = @_;
-
-    defined $args->{$_} && ($self->{'UIC_'.$_} = delete $args->{$_})
-        foreach qw/
-item_type
-/;
-
-   $self->SUPER::init($args);
-
-   if(my $user = delete $args->{user})
-   {   $self->user($user);
-   }
-
-   $self->{UIC_roles} = { };
-   my $roles = $args->{roles};
-
-   my @roles
-    = ! defined $roles      ? ()
-    : ref $roles eq 'ARRAY' ? @$roles
-    :                         $roles;
-
-   $self->addRole($_) foreach @roles;
-
-   $self;
-}
 
 use overload '""' => sub {
    my $self = shift;
    $self->name . ": " . join(", ", sort map {$_->name} $self->roles);
 };
 
+#-----------------------------------------
+
+
 use overload '@{}' => sub { [ shift->roles ] };
 
+#-----------------------------------------
+
+
+sub init($)
+{   my ($self, $args) = @_;
+
+    exists $args->{$_} && ($self->{'UIC_'.$_} = delete $args->{$_})
+        foreach qw/item_type/;
+
+    $self->SUPER::init($args);
+    
+    if(my $user = delete $args->{user})
+    {   $self->user($user);
+    }
+ 
+    $self->{UIC_roles} = { };
+    my $roles = $args->{roles};
+ 
+    my @roles
+     = ! defined $roles      ? ()
+     : ref $roles eq 'ARRAY' ? @$roles
+     :                         $roles;
+ 
+    $self->addRole($_) foreach @roles;
+ 
+    $self;
+}
+
+#-----------------------------------------
+
+
 sub roles() { values %{shift->{UIC_roles}} }
+
+#-----------------------------------------
+
 
 sub addRole(@)
 {   my $self = shift;
@@ -68,6 +80,9 @@ sub addRole(@)
     $role;
 }
 
+#-----------------------------------------
+
+
 sub user(;$)
 {   my $self = shift;
 
@@ -82,6 +97,9 @@ sub user(;$)
     $self->{UIC_user};
 }
 
+#-----------------------------------------
+
+
 sub find($)
 {   my ($self, $select) = @_;
 
@@ -90,6 +108,8 @@ sub find($)
     : wantarray        ? grep ({ $select->($_, $self) } $self->roles)
     :                    first { $select->($_, $self) } $self->roles;
 }
+
+#-----------------------------------------
 
 1;
 

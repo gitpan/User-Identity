@@ -1,10 +1,17 @@
 package User::Identity;
-our $VERSION = 0.04;  # Part of User::Identity
+use vars '$VERSION';
+$VERSION = '0.05';
 use base 'User::Identity::Item';
 
 use strict;
 use warnings;
 use Carp;
+
+
+use overload '""' => 'fullName';
+
+#-----------------------------------------
+
 
 my @attributes = qw/charset courtesy date_of_birth full_name formal_name
 firstname gender initials language nickname prefix surname titles /;
@@ -12,15 +19,19 @@ firstname gender initials language nickname prefix surname titles /;
 sub init($)
 {   my ($self, $args) = @_;
 
-    defined $args->{$_} && ($self->{'UI_'.$_} = delete $args->{$_})
+    exists $args->{$_} && ($self->{'UI_'.$_} = delete $args->{$_})
         foreach @attributes;
 
-   $self->SUPER::init($args);
+    $self->SUPER::init($args);
 }
 
-use overload '""' => 'fullName';
+#-----------------------------------------
+
 
 sub charset() { shift->{UI_charset} || $ENV{LC_CTYPE} }
+
+#-----------------------------------------
+
 
 sub nickname()
 {   my $self = shift;
@@ -28,10 +39,16 @@ sub nickname()
     # TBI: If OS-specific info exists, then username
 }
 
+#-----------------------------------------
+
+
 sub firstname()
 {   my $self = shift;
     $self->{UI_firstname} || ucfirst $self->nickname;
 }
+
+#-----------------------------------------
+
 
 sub initials()
 {   my $self = shift;
@@ -50,9 +67,18 @@ sub initials()
     }
 }
 
+#-----------------------------------------
+
+
 sub prefix() { shift->{UI_prefix} }
 
+#-----------------------------------------
+
+
 sub surname() { shift->{UI_surname} }
+
+#-----------------------------------------
+
 
 sub fullName()
 {   my $self = shift;
@@ -65,7 +91,7 @@ sub fullName()
 
     $surname = ucfirst $self->nickname if  defined $first && ! defined $surname;
     $first   = $self->firstname        if !defined $first &&   defined $surname;
-
+    
     my $full = join ' ', grep {defined $_} ($first,$prefix,$surname);
 
     $full = $self->firstname unless length $full;
@@ -74,6 +100,9 @@ sub fullName()
 
     $full;
 }
+
+#-----------------------------------------
+
 
 sub formalName()
 {   my $self = shift;
@@ -89,6 +118,9 @@ sub formalName()
        $self->courtesy, $initials
        , @$self{ qw/UI_prefix UI_surname UI_titles/ };
 }
+
+#-----------------------------------------
+
 
 my %male_courtesy
  = ( mister    => 'en'
@@ -143,6 +175,9 @@ sub courtesy()
     $table->{$lang};
 }
 
+#-----------------------------------------
+
+
 # TBI: if we have a courtesy, we may detect the language.
 # TBI: when we have a postal address, we may derive the language from
 #      the country.
@@ -151,7 +186,13 @@ sub courtesy()
 
 sub language() { shift->{UI_language} || 'en' }
 
+#-----------------------------------------
+
+
 sub gender() { shift->{UI_gender} }
+
+#-----------------------------------------
+
 
 sub isMale()
 {   my $self = shift;
@@ -169,6 +210,9 @@ sub isMale()
     undef;
 }
 
+#-----------------------------------------
+
+
 sub isFemale()
 {   my $self = shift;
 
@@ -185,7 +229,13 @@ sub isFemale()
     undef;
 }
 
+#-----------------------------------------
+
+
 sub dateOfBirth() { shift->{UI_date_of_birth} }
+
+#-----------------------------------------
+
 
 sub birth()
 {   my $birth = shift->dateOfBirth;
@@ -212,6 +262,9 @@ sub birth()
     undef;
 }
 
+#-----------------------------------------
+
+
 sub age()
 {   my $birth = shift->birth or return;
 
@@ -224,13 +277,19 @@ sub age()
     $age;
 }
 
+#-----------------------------------------
+
+
 sub titles() { shift->{UI_titles} }
+
+#-----------------------------------------
+
 
 our %collectors =
  ( emails    => 'User::Identity::Collection::Emails'
  , locations => 'User::Identity::Collection::Locations'
  , systems   => 'User::Identity::Collection::Systems'
- );  # *s is tried as well, so email and location work too.
+ );  # *s is tried as well, so email, system, and location work too.
 
 sub addCollection(@)
 {   my $self = shift;
@@ -252,7 +311,7 @@ sub addCollection(@)
 
         my $class = $collectors{$type} || $collectors{$type.'s'} || $type;
         eval "require $class";
-        croak "ERROR: Cannot load collection module $type ($class)"
+        croak "ERROR: Cannot load collection module $type ($class); $@"
            if $@;
 
         $object = $class->new(%args);
@@ -264,6 +323,9 @@ sub addCollection(@)
     $self->{UI_col}{$object->name} = $object;
 }
 
+#-----------------------------------------
+
+
 sub collection($;$)
 {   my $self       = shift;
     my $collname   = shift;
@@ -272,6 +334,9 @@ sub collection($;$)
 
     wantarray ? $collection->roles : $collection;
 }
+
+#-----------------------------------------
+
 
 sub add($$)
 {   my ($self, $collname) = (shift, shift);
@@ -288,6 +353,9 @@ sub add($$)
     $collection->addRole(@_);
 }
 
+#-----------------------------------------
+
+
 sub find($$)
 {   my $all        = shift->{UI_col};
     my $collname   = shift;
@@ -295,9 +363,11 @@ sub find($$)
      = ref $collname && $collname->isa('User::Identity::Collect') ? $collname
      : ($all->{$collname} || $all->{$collname.'s'});
 
-    return unless defined $collection;
+    return () unless defined $collection;
     $collection->find(shift);
 }
+
+#-----------------------------------------
 
 1;
 

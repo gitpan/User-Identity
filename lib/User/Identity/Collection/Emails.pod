@@ -1,0 +1,161 @@
+
+=head1 NAME
+
+User::Identity::Collection::Emails - a collection of email roles
+
+
+=head1 INHERITANCE
+
+ User::Identity::Collection::Emails
+   is a User::Identity::Collection
+   is a User::Identity::Item
+
+
+=head1 SYNOPSIS
+
+
+
+=head1 DESCRIPTION
+
+The C<User::Identity::Collection::Emails> object maintains a set
+L<Mail::Identity|Mail::Identity> objects, each describing a role which the user has
+in e-mail traffic.
+
+
+=head1 OVERLOADED
+
+
+overload: B<@{}>
+
+=over 4
+
+See L<User::Identity::Collection/"OVERLOADED">
+
+=back
+
+overload: B<stringification>
+
+=over 4
+
+See L<User::Identity::Collection/"OVERLOADED">
+
+=back
+
+
+=head1 METHODS
+
+
+=head2 Initiation
+
+
+User::Identity::Collection::Emails-E<gt>B<new>([NAME], OPTIONS)
+
+=over 4
+
+ Option       Defined in       Default                         
+ description  L<User::Identity::Item>  undef                           
+ item_type    L<User::Identity::Collection>  L<Mail::Identity|Mail::Identity>
+ name         L<User::Identity::Item>  C<'emails'>                     
+ roles        L<User::Identity::Collection>  undef                           
+ user         L<User::Identity::Collection>  undef                           
+
+. description STRING
+
+. item_type CLASS
+
+. name STRING
+
+. roles ROLE|ARRAY
+
+. user OBJECT
+
+=back
+
+=head2 Attributes
+
+
+$obj-E<gt>B<addRole>(ROLE| ( [NAME],OPTIONS ) | ARRAY-OF-OPTIONS)
+
+=over 4
+
+See L<User::Identity::Collection/"Attributes">
+
+=back
+
+$obj-E<gt>B<description>
+
+=over 4
+
+See L<User::Identity::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<name>
+
+=over 4
+
+See L<User::Identity::Item/"Attributes">
+
+=back
+
+$obj-E<gt>B<roles>
+
+=over 4
+
+See L<User::Identity::Collection/"Attributes">
+
+=back
+
+$obj-E<gt>B<user>([USER])
+
+=over 4
+
+See L<User::Identity::Collection/"Attributes">
+
+=back
+
+=head2 Searching
+
+
+$obj-E<gt>B<find>(NAME|CODE|undef)
+
+=over 4
+
+See L<User::Identity::Collection/"Searching">
+
+=back
+
+
+
+=head1 DIAGNOSTICS
+
+I<Error:> Cannot create a $type to add this to my collection.
+
+Some options are specified to create a $type object, which is native to
+this collection.  However, for some reason this failed.
+
+I<Error:> Wrong type of role for $collection: requires a $expect but got a $type
+
+Each $collection groups sets of roles of one specific type ($expect).  You
+cannot add objects of a different $type.
+
+
+
+
+
+
+=head1 REFERENCES
+
+See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
+
+=head1 COPYRIGHTS
+
+User::Identity version 0.05.
+Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
+other contributors.
+
+Copyright (c) 2003 by the author(s). All rights reserved.  This program
+is free software; you can redistribute it and/or modify it under the
+same terms as Perl itself.
+
+
