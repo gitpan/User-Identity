@@ -1,0 +1,115 @@
+
+=head1 NAME
+
+User::Identity::Collection::Emails - a collection of email roles
+
+=head1 CLASS INHERITANCE
+
+ User::Identity::Collection::Emails
+   is a User::Identity::Collection
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+The User::Identity::Collection::Email object maintains a set
+Mail::Identity objects, each describing a role which the user has
+in e-mail traffic.
+
+=head1 METHODS
+
+=head2 Initiation
+
+=over 4
+
+=item B<new> [NAME], OPTIONS
+
+(Class method)
+
+ OPTION               DEFAULT
+ item_type            'Mail::Identity'
+ name                 'emails'
+ roles                undef
+ user                 undef
+
+=over 4
+
+=item B<item_type> =E<gt> CLASS
+
+See User::Identity::Collection::new(item_type)
+
+=item B<name> =E<gt> STRING
+
+See User::Identity::Collection::new(name)
+
+=item B<roles> =E<gt> ROLE|ARRAY
+
+See User::Identity::Collection::new(roles)
+
+=item B<user> =E<gt> OBJECT
+
+See User::Identity::Collection::new(user)
+
+=back
+
+=back
+
+=head2 Overloading
+
+=over 4
+
+=item B<stringification> 
+
+See User::Identity::Collection::stringification()
+
+=back
+
+=head2 Attributes
+
+=over 4
+
+=item B<addRole> ROLE| ( [NAME],OPTIONS ) | ARRAY-OF-OPTIONS
+
+See User::Identity::Collection::addRole()
+
+=item B<name> 
+
+See User::Identity::Collection::name()
+
+=item B<roles> 
+
+See User::Identity::Collection::roles()
+
+=item B<user> [USER]
+
+See User::Identity::Collection::user()
+
+=back
+
+=head2 Searching
+
+=over 4
+
+=item B<find> NAME|CODE
+
+See User::Identity::Collection::find()
+
+=back
+
+=head1 SEE ALSO
+
+See the website at L<http://perl.overmeer.net/userid/>.
+
+=head1 AUTHOR
+
+Written by Mark Overmeer (L<mark@overmeer.net|mailto:mark@overmeer.net>)
+with the help of many.  See the ChangeLog for details.
+
+=head1 VERSION
+
+This code is beta, version 0.02.
+
+Copyright (c) 2003 by the authors. All rights reserved.
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.

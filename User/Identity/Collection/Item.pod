@@ -1,0 +1,82 @@
+
+=head1 NAME
+
+User::Identity::Collection::Item - bae class for any collectable item
+
+=head1 CLASS INHERITANCE
+
+ User::Identity::Collection::Item is extended by
+   Mail::Identity
+   User::Identity::Location
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+The User::Identity::Collection::Item object is extended into objects which
+contain data to be collected.
+
+=head1 METHODS
+
+=head2 Initiation
+
+=over 4
+
+=item B<new> [NAME], OPTIONS
+
+(Class method)
+
+ OPTION               DEFAULT
+ name                 <required>
+ user                 undef
+
+=over 4
+
+=item B<name> =E<gt> STRING
+
+A simple name for this location, like 'home' or 'work'.
+
+=item B<user> =E<gt> OBJECT
+
+Refers to the user (a User::Identity object) who has this item in one of
+his/het collections.  The item may be unrelated to any user.
+
+=back
+
+=back
+
+=head2 Attributes
+
+=over 4
+
+=item B<name> 
+
+Reports the logical name for this location.  This is the specified name or, if
+that was not specified, the name of the organization.  This will always return
+a valid string.
+
+=item B<user> [USER]
+
+The user whose address this is.  This is a weak link, which means that
+the location object will be removed when the user object is deleted and
+no other references to this location object exist.
+
+=back
+
+=head1 SEE ALSO
+
+See the website at L<http://perl.overmeer.net/userid/>.
+
+=head1 AUTHOR
+
+Written by Mark Overmeer (L<mark@overmeer.net|mailto:mark@overmeer.net>)
+with the help of many.  See the ChangeLog for details.
+
+=head1 VERSION
+
+This code is beta, version 0.02.
+
+Copyright (c) 2003 by the authors. All rights reserved.
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
