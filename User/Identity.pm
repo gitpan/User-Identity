@@ -1,74 +1,36 @@
 package User::Identity;
-our $VERSION = 0.02;  # Part of User::Identity
+our $VERSION = 0.03;  # Part of User::Identity
+use base 'User::Identity::Item';
 
 use strict;
 use warnings;
-use Carp qw/croak/;
+use Carp;
 
-sub new(@)
-{   my $class = shift;
-    return undef unless @_;           # no empty users.
-
-    unshift @_, 'nickname' if @_ %2;  # odd-length list: starts with nick
-
-    (bless {}, $class)->init( {@_} );
-}
+my @attributes = qw/charset courtesy date_of_birth full_name formal_name
+firstname gender initials language nickname prefix surname titles /;
 
 sub init($)
 {   my ($self, $args) = @_;
 
     defined $args->{$_} && ($self->{'UI_'.$_} = delete $args->{$_})
-        foreach qw/
-charset
-courtesy
-date_of_birth
-full_name
-formal_name
-firstname
-gender
-initials
-language
-nickname
-prefix
-surname
-titles
-/;
+        foreach @attributes;
 
-   if(keys %$args)
-   {   require Carp;
-       local $" = ', ';    # "
-       Carp::croak("Unknown options: @{ [keys %$args ] }");
-   }
-
-   $self;
+   $self->SUPER::init($args);
 }
 
 use overload '""' => 'fullName';
 
-sub charset() { shift->{UI_charset} || $ENV{LC_CTYPE} || $ENV{LC_ALL} }
+sub charset() { shift->{UI_charset} || $ENV{LC_CTYPE} }
 
 sub nickname()
 {   my $self = shift;
-    return $self->{UI_nickname} if exists $self->{UI_nickname};
-
-    if(my $firstname = $self->firstname)
-    {   return lc $firstname;
-    }
-
+    $self->{UI_nickname} || $self->name;
     # TBI: If OS-specific info exists, then username
-
-    undef;
 }
 
 sub firstname()
 {   my $self = shift;
-
-    return $self->{UI_firstname}
-       if defined $self->{UI_firstname};
-
-    # TBI: parse fullname if no first name is known.
-
-    undef;
+    $self->{UI_firstname} || ucfirst $self->nickname;
 }
 
 sub initials()
@@ -90,7 +52,7 @@ sub initials()
 
 sub prefix() { shift->{UI_prefix} }
 
-sub surname() {shift->{UI_surname}}
+sub surname() { shift->{UI_surname} }
 
 sub fullName()
 {   my $self = shift;
@@ -98,14 +60,15 @@ sub fullName()
     return $self->{UI_full_name}
        if defined $self->{UI_full_name};
 
-    my ($first, $prefix, $surname) = @$self{ qw/UI_firstname UI_prefix UI_surname/};
+    my ($first, $prefix, $surname)
+       = @$self{ qw/UI_firstname UI_prefix UI_surname/};
+
     $surname = ucfirst $self->nickname if  defined $first && ! defined $surname;
-    $first   = ucfirst $self->nickname if !defined $first &&   defined $surname;
+    $first   = $self->firstname        if !defined $first &&   defined $surname;
 
     my $full = join ' ', grep {defined $_} ($first,$prefix,$surname);
 
-    $full = ucfirst(lc $self->{UI_nickname})
-       if !length $full && defined $self->{UI_nickname};
+    $full = $self->firstname unless length $full;
 
     # TBI: if OS-specific knowledge, then unix GCOS?
 
@@ -170,8 +133,7 @@ sub courtesy()
       : $self->isFemale ? \%female_courtesy_default
       : return undef;
 
-    my $lang = lc($self->language || 'en');
-
+    my $lang = lc $self->language;
     return $table->{$lang} if exists $table->{$lang};
 
     $lang =~ s/\..*//;     # "en_GB.utf8" --> "en-GB"  and retry
@@ -181,22 +143,13 @@ sub courtesy()
     $table->{$lang};
 }
 
-sub language()
-{   my $self = shift;
+# TBI: if we have a courtesy, we may detect the language.
+# TBI: when we have a postal address, we may derive the language from
+#      the country.
+# TBI: if we have an e-mail addres, we may derive the language from
+#      that.
 
-    return $self->{UI_language}
-       if defined $self->{UI_language};
-
-    # TBI: if we have a courtesy, we may detect the language.
-
-    # TBI: when we have a postal address, we may derive the language from
-    # the country.
-
-    # TBI: if we have an e-mail addres, we may derive the language from
-    # that.
-
-    $ENV{LANG} || $ENV{LC_NAME} || $ENV{LC_TYPE} || $ENV{LC_ALL};
-}
+sub language() { shift->{UI_language} || 'en' }
 
 sub gender() { shift->{UI_gender} }
 
@@ -232,7 +185,7 @@ sub isFemale()
     undef;
 }
 
-sub dateOfBirth() {shift->{UI_date_of_birth}}
+sub dateOfBirth() { shift->{UI_date_of_birth} }
 
 sub birth()
 {   my $birth = shift->dateOfBirth;
@@ -276,6 +229,7 @@ sub titles() { shift->{UI_titles} }
 our %collectors =
  ( emails    => 'User::Identity::Collection::Emails'
  , locations => 'User::Identity::Collection::Locations'
+ , systems   => 'User::Identity::Collection::Systems'
  );  # *s is tried as well, so email and location work too.
 
 sub addCollection(@)
@@ -321,14 +275,27 @@ sub collection($;$)
 
 sub add($$)
 {   my ($self, $collname) = (shift, shift);
-    my $collection = $self->collection($collname) || $self->addCollection($collname);
+    my $collection
+     = ref $collname && $collname->isa('User::Identity::Collection')
+     ? $collname
+     : ($self->collection($collname) || $self->addCollection($collname));
+
+    unless($collection)
+    {   carp "No collection $collname";
+        return;
+    }
+
     $collection->addRole(@_);
 }
 
 sub find($$)
 {   my $all        = shift->{UI_col};
     my $collname   = shift;
-    my $collection = $all->{$collname} || $all->{$collname.'s'} || return;
+    my $collection
+     = ref $collname && $collname->isa('User::Identity::Collect') ? $collname
+     : ($all->{$collname} || $all->{$collname.'s'});
+
+    return unless defined $collection;
     $collection->find(shift);
 }
 

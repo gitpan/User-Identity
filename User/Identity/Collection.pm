@@ -1,5 +1,6 @@
 package User::Identity::Collection;
-our $VERSION = 0.02;  # Part of User::Identity
+our $VERSION = 0.03;  # Part of User::Identity
+use base 'User::Identity::Item';
 
 use strict;
 use warnings;
@@ -9,41 +10,28 @@ use Carp;
 use Scalar::Util qw/weaken/;
 use List::Util   qw/first/;
 
-sub new(@)
-{   my $class = shift;
-    return undef unless @_;           # no empty users.
-
-    unshift @_, 'name' if @_ %2;  # odd-length list: starts with nick
-
-    (bless {}, $class)->init( {@_} );
-}
-
 sub init($)
 {   my ($self, $args) = @_;
 
     defined $args->{$_} && ($self->{'UIC_'.$_} = delete $args->{$_})
         foreach qw/
-name
 item_type
 /;
+
+   $self->SUPER::init($args);
 
    if(my $user = delete $args->{user})
    {   $self->user($user);
    }
 
-   if(keys %$args)
-   {   local $" = ', ';
-       croak "ERROR: Unknown option(s): @{ [keys %$args ] }.";
-   }
-
-   unless(defined $self->name)
-   {   require Carp;
-       croak "ERROR: Each collection requires a name.";
-   }
-
    $self->{UIC_roles} = { };
    my $roles = $args->{roles};
-   my @roles = ! defined $roles ? () : ref $roles eq 'ARRAY' ? @$roles : $roles;
+
+   my @roles
+    = ! defined $roles      ? ()
+    : ref $roles eq 'ARRAY' ? @$roles
+    :                         $roles;
+
    $self->addRole($_) foreach @roles;
 
    $self;
@@ -54,9 +42,7 @@ use overload '""' => sub {
    $self->name . ": " . join(", ", sort map {$_->name} $self->roles);
 };
 
-use overload '@{}' => sub { [ values %{$_[0]->{UIC_roles}} ] };
-
-sub name() { shift->{UIC_name} }
+use overload '@{}' => sub { [ shift->roles ] };
 
 sub roles() { values %{shift->{UIC_roles}} }
 
@@ -97,16 +83,12 @@ sub user(;$)
 }
 
 sub find($)
-{   my $self = shift;
+{   my ($self, $select) = @_;
 
-    return $self->{UIC_roles}{ (shift) }
-        unless ref $_[0];
-
-    my $code = shift;
-
-    wantarray
-    ? grep  { $code->($_, $self) } $self->roles
-    : first { $code->($_, $self) } $self->roles;
+      !defined $select ? ($self->roles)[0]
+    : !ref $select     ? $self->{UIC_roles}{$select}
+    : wantarray        ? grep ({ $select->($_, $self) } $self->roles)
+    :                    first { $select->($_, $self) } $self->roles;
 }
 
 1;

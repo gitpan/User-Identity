@@ -1,25 +1,22 @@
 
 =head1 NAME
 
-User::Identity::Collection::Item - base class for any collectable item
+User::Identity::Collection::Systems - a collection of system descriptions
 
 =head1 CLASS INHERITANCE
 
- User::Identity::Collection::Item
+ User::Identity::Collection::Systems
+   is a User::Identity::Collection
    is a User::Identity::Item
-
- User::Identity::Collection::Item is extended by
-   Mail::Identity
-   User::Identity::Location
-   User::Identity::System
 
 =head1 SYNOPSIS
 
 
 =head1 DESCRIPTION
 
-The User::Identity::Collection::Item object is extended into objects which
-contain data to be collected.
+The User::Identity::Collection::Email object maintains a set
+Mail::Identity objects, each describing a role which the user has
+in e-mail traffic.
 
 =head1 METHODS
 
@@ -33,7 +30,9 @@ contain data to be collected.
 
  OPTION               DEFAULT
  description          undef
- name                 <required>
+ item_type            'User::Identity::System'
+ name                 'systems'
+ roles                undef
  user                 undef
 
 =over 4
@@ -42,22 +41,43 @@ contain data to be collected.
 
 See User::Identity::Item::new(description)
 
+=item B<item_type> =E<gt> CLASS
+
+See User::Identity::Collection::new(item_type)
+
 =item B<name> =E<gt> STRING
 
 See User::Identity::Item::new(name)
 
+=item B<roles> =E<gt> ROLE|ARRAY
+
+See User::Identity::Collection::new(roles)
+
 =item B<user> =E<gt> OBJECT
 
-Refers to the user (a User::Identity object) who has this item in one of
-his/het collections.  The item may be unrelated to any user.
+See User::Identity::Collection::new(user)
 
 =back
+
+=back
+
+=head2 Overloading
+
+=over 4
+
+=item B<stringification> 
+
+See User::Identity::Collection::stringification()
 
 =back
 
 =head2 Attributes
 
 =over 4
+
+=item B<addRole> ROLE| ( [NAME],OPTIONS ) | ARRAY-OF-OPTIONS
+
+See User::Identity::Collection::addRole()
 
 =item B<description> 
 
@@ -67,11 +87,23 @@ See User::Identity::Item::description()
 
 See User::Identity::Item::name()
 
+=item B<roles> 
+
+See User::Identity::Collection::roles()
+
 =item B<user> [USER]
 
-The user whose address this is.  This is a weak link, which means that
-the location object will be removed when the user object is deleted and
-no other references to this location object exist.
+See User::Identity::Collection::user()
+
+=back
+
+=head2 Searching
+
+=over 4
+
+=item B<find> NAME|CODE|undef
+
+See User::Identity::Collection::find()
 
 =back
 

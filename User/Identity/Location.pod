@@ -7,6 +7,7 @@ User::Identity::Location - physical location of a person
 
  User::Identity::Location
    is a User::Identity::Collection::Item
+   is a User::Identity::Item
 
 =head1 SYNOPSIS
 
@@ -46,6 +47,7 @@ in the OPTION list.  Without a specific name, the organization is used as name.
  OPTION               DEFAULT
  country              undef
  country_code         undef
+ description          undef
  fax                  undef
  name                 <required>
  organization         undef
@@ -63,11 +65,15 @@ in the OPTION list.  Without a specific name, the organization is used as name.
 
 =item B<country_code> =E<gt> STRING
 
+=item B<description> =E<gt> STRING
+
+See User::Identity::Item::new(description)
+
 =item B<fax> =E<gt> STRING|ARRAY
 
 =item B<name> =E<gt> STRING
 
-See User::Identity::Collection::Item::new(name)
+See User::Identity::Item::new(name)
 
 =item B<organization> =E<gt> STRING
 
@@ -110,6 +116,10 @@ using Geography::Countries (if installed).
 Each country has an ISO standard abbreviation.  Specify the country or the
 country code, and the other will be filled in automatically.
 
+=item B<description> 
+
+See User::Identity::Item::description()
+
 =item B<fax> 
 
 One or more fax numbers. Like the telephone() method above.
@@ -126,7 +136,7 @@ given, undef will be returned: an incomplete address.
 
 =item B<name> 
 
-See User::Identity::Collection::Item::name()
+See User::Identity::Item::name()
 
 =item B<organization> 
 
@@ -181,7 +191,7 @@ with the help of many.  See the ChangeLog for details.
 
 =head1 VERSION
 
-This code is beta, version 0.02.
+This code is beta, version 0.03.
 
 Copyright (c) 2003 by the authors. All rights reserved.
 This program is free software; you can redistribute it and/or modify

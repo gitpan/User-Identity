@@ -1,0 +1,149 @@
+
+=head1 NAME
+
+User::Identity::System - physical system of a person
+
+=head1 CLASS INHERITANCE
+
+ User::Identity::System
+   is a User::Identity::Collection::Item
+   is a User::Identity::Item
+
+=head1 SYNOPSIS
+
+ use User::Identity;
+ use User::Identity::System;
+ my $me   = User::Identity->new(...);
+ my $server = User::Identity::System->new(...);
+ $me->add(system => $server);
+
+ # Simpler
+
+ use User::Identity;
+ my $me   = User::Indentity->new(...);
+ my $addr = $me->add(system => ...);
+
+=head1 DESCRIPTION
+
+The User::Identity::System object contains the description of the
+user's presence on a system.  The systems are collected
+by a User::Identity::Collection::Systems object.
+
+Nearly all methods can return undef.
+
+=head1 METHODS
+
+=head2 Initiation
+
+=over 4
+
+=item B<new> [NAME], OPTIONS
+
+(Class method) 
+Create a new system.  You can specify a name as first argument, or
+in the OPTION list.  Without a specific name, the organization is used as name.
+
+ OPTION               DEFAULT
+ description          undef
+ hostname             'localhost'
+ location             undef
+ name                 <required>
+ os                   undef
+ password             undef
+ user                 undef
+ username             undef
+
+=over 4
+
+=item B<description> =E<gt> STRING
+
+See User::Identity::Item::new(description)
+
+=item B<hostname> =E<gt> DOMAIN
+
+The hostname of the described system.  It is prefered to use full
+system names, not abbreviations.  For instance, you can better use
+C<www.tux.aq> than C<www> to avoid confusion.
+
+=item B<location> =E<gt> NICKNAME|OBJECT
+
+The NICKNAME of a location which is defined for the same user.  You can
+also specify a User::Identity::Location OBJECT.
+
+=item B<name> =E<gt> STRING
+
+See User::Identity::Item::new(name)
+
+=item B<os> =E<gt> STRING
+
+The name of the operating system which is run on the server.  It is
+adviced to use the names as used by Perl's $^O variable.  See the
+perlvar man-page for this variable, and perlport for the possible
+values.
+
+=item B<password> =E<gt> STRING
+
+The password to be used to login.  This password must be un-encoded:
+directly usable.  Be warned that storing un-encoded passwords is a
+high security list.
+
+=item B<user> =E<gt> OBJECT
+
+See User::Identity::Collection::Item::new(user)
+
+=item B<username> =E<gt> STRING
+
+The username to be used to login to this host.
+
+=back
+
+=back
+
+=head2 Attributes
+
+=over 4
+
+=item B<description> 
+
+See User::Identity::Item::description()
+
+=item B<hostname> 
+
+=item B<location> 
+
+Returns the object which describes to which location this system relates.
+The location may be used to find the name of the organization involved, or
+to create a signature.  If no location is specified, undef is returned.
+
+=item B<name> 
+
+See User::Identity::Item::name()
+
+=item B<os> 
+
+=item B<password> 
+
+=item B<user> [USER]
+
+See User::Identity::Collection::Item::user()
+
+=item B<username> 
+
+=back
+
+=head1 SEE ALSO
+
+See the website at L<http://perl.overmeer.net/userid/>.
+
+=head1 AUTHOR
+
+Written by Mark Overmeer (L<mark@overmeer.net|mailto:mark@overmeer.net>)
+with the help of many.  See the ChangeLog for details.
+
+=head1 VERSION
+
+This code is beta, version 0.03.
+
+Copyright (c) 2003 by the authors. All rights reserved.
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.

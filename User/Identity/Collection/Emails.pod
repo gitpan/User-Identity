@@ -7,6 +7,7 @@ User::Identity::Collection::Emails - a collection of email roles
 
  User::Identity::Collection::Emails
    is a User::Identity::Collection
+   is a User::Identity::Item
 
 =head1 SYNOPSIS
 
@@ -28,6 +29,7 @@ in e-mail traffic.
 (Class method)
 
  OPTION               DEFAULT
+ description          undef
  item_type            'Mail::Identity'
  name                 'emails'
  roles                undef
@@ -35,13 +37,17 @@ in e-mail traffic.
 
 =over 4
 
+=item B<description> =E<gt> STRING
+
+See User::Identity::Item::new(description)
+
 =item B<item_type> =E<gt> CLASS
 
 See User::Identity::Collection::new(item_type)
 
 =item B<name> =E<gt> STRING
 
-See User::Identity::Collection::new(name)
+See User::Identity::Item::new(name)
 
 =item B<roles> =E<gt> ROLE|ARRAY
 
@@ -73,9 +79,13 @@ See User::Identity::Collection::stringification()
 
 See User::Identity::Collection::addRole()
 
+=item B<description> 
+
+See User::Identity::Item::description()
+
 =item B<name> 
 
-See User::Identity::Collection::name()
+See User::Identity::Item::name()
 
 =item B<roles> 
 
@@ -91,7 +101,7 @@ See User::Identity::Collection::user()
 
 =over 4
 
-=item B<find> NAME|CODE
+=item B<find> NAME|CODE|undef
 
 See User::Identity::Collection::find()
 
@@ -108,7 +118,7 @@ with the help of many.  See the ChangeLog for details.
 
 =head1 VERSION
 
-This code is beta, version 0.02.
+This code is beta, version 0.03.
 
 Copyright (c) 2003 by the authors. All rights reserved.
 This program is free software; you can redistribute it and/or modify

@@ -7,6 +7,7 @@ Mail::Identity - an e-mail role
 
  Mail::Identity
    is a User::Identity::Collection::Item
+   is a User::Identity::Item
 
 =head1 SYNOPSIS
 
@@ -46,6 +47,7 @@ Mail::Internet is therefore the smart cousine of the Mail::Address object.
 
  OPTION               DEFAULT
  comment              <user's fullname if phrase is different>
+ description          undef
  domainname           <from email or localhost>
  email                <username@domainname>
  location             <random user's location>
@@ -61,6 +63,10 @@ Mail::Internet is therefore the smart cousine of the Mail::Address object.
 
 =item B<comment> =E<gt> STRING
 
+=item B<description> =E<gt> STRING
+
+See User::Identity::Item::new(description)
+
 =item B<domainname> =E<gt> STRING
 
 =item B<email> =E<gt> STRING
@@ -73,7 +79,7 @@ as User::Identity::Location object.
 
 =item B<name> =E<gt> STRING
 
-See User::Identity::Collection::Item::new(name)
+See User::Identity::Item::new(name)
 
 =item B<organization> =E<gt> STRING
 
@@ -108,6 +114,10 @@ The RFCs advice not to store useful information in these comments, but it
 you really want to, you can do it.  The comment defaults to the user's
 fuilname if the phrase is not the fullname and there is a user defined.
 
+=item B<description> 
+
+See User::Identity::Item::description()
+
 =item B<domainname> 
 
 The domainname is the part of the e-mail address after the C<@>-sign.  When this
@@ -128,7 +138,7 @@ which has locations, one of those is randomly chosen.
 
 =item B<name> 
 
-See User::Identity::Collection::Item::name()
+See User::Identity::Item::name()
 
 =item B<organization> 
 
@@ -165,7 +175,7 @@ with the help of many.  See the ChangeLog for details.
 
 =head1 VERSION
 
-This code is beta, version 0.02.
+This code is beta, version 0.03.
 
 Copyright (c) 2003 by the authors. All rights reserved.
 This program is free software; you can redistribute it and/or modify

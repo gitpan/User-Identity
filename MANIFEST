@@ -15,8 +15,14 @@ User/Identity/Collection/Item.pm
 User/Identity/Collection/Item.pod
 User/Identity/Collection/Locations.pm
 User/Identity/Collection/Locations.pod
+User/Identity/Collection/Systems.pm
+User/Identity/Collection/Systems.pod
+User/Identity/Item.pm
+User/Identity/Item.pod
 User/Identity/Location.pm
 User/Identity/Location.pod
+User/Identity/System.pm
+User/Identity/System.pod
 User/Makefile.PL
 t/10userid.t
 t/20loc.t

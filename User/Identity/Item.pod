@@ -1,0 +1,84 @@
+
+=head1 NAME
+
+User::Identity::Item - general base class for User::Identity
+
+=head1 CLASS INHERITANCE
+
+ User::Identity::Item is extended by
+   User::Identity
+   User::Identity::Collection
+   User::Identity::Collection::Item
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+The User::Identity::Item base class is extended into useful modules: it
+has no use by its own.
+
+=head1 METHODS
+
+=head2 Initiation
+
+=over 4
+
+=item B<new> [NAME], OPTIONS
+
+(Class method)
+
+ OPTION               DEFAULT
+ description          undef
+ name                 <required>
+
+=over 4
+
+=item B<description> =E<gt> STRING
+
+Free format description on the collected item.
+
+=item B<name> =E<gt> STRING
+
+A simple name for this location, like 'home' or 'work'.  Anything is
+permitted as name.
+
+=back
+
+=back
+
+=head2 Attributes
+
+=over 4
+
+=item B<description> 
+
+Free format description on this item.  Please do not add
+any significance to the content of this field: if you are in need
+for an extra attribute, please contact the author of the module to
+implement it, or extend the object to suit your needs.
+
+=item B<name> 
+
+The name of this item.  Names are unique within a collection... a second
+object with the same name within any collection will destroy the already
+existing object with that name.
+
+=back
+
+=head1 SEE ALSO
+
+See the website at L<http://perl.overmeer.net/userid/>.
+
+=head1 AUTHOR
+
+Written by Mark Overmeer (L<mark@overmeer.net|mailto:mark@overmeer.net>)
+with the help of many.  See the ChangeLog for details.
+
+=head1 VERSION
+
+This code is beta, version 0.03.
+
+Copyright (c) 2003 by the authors. All rights reserved.
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.

@@ -1,25 +1,38 @@
 
 =head1 NAME
 
-User::Identity - info about a physical person
+User::Identity - maintains info about a physical person
+
+=head1 CLASS INHERITANCE
+
+ User::Identity
+   is a User::Identity::Item
 
 =head1 SYNOPSIS
 
  use User::Identity;
  my $me = User::Indentity->new
-  ( firstname => 'John'
+  ( 'john'
+  , firstname => 'John'
   , surname   => 'Doe'
   );
- print $me;           # prints "John Doe"
- print $me->fullName  # same
+ print $me->fullName  # prints "John Doe"
+ print $me;           # same
 
 =head1 DESCRIPTION
 
-The User::Identity object is created to maintain a set of information
-which is related to one user.  The identity can be created by any
-simple or complex Perl program, and is therefore more flexible than
-an XML file.  If you need more kinds of user information, then please
-contact the author.
+The User::Identity object is created to maintain a set of informational
+objects which are related to one user.  The User::Identity module try to
+be smart providing defaults, conversions and often required combinations.
+
+The identities are not implementing any kind of storage, and can therefore
+be created by any simple or complex Perl program.  This way, it is more
+flexible than an XML file to store the data.  For instance, you can decide
+to store the data with Data::Dumper, Storable, DBI, Mail::AddressBook
+or whatever.  Extension to simplify this task are still to be developed.
+
+If you need more kinds of user information, then please contact the
+module author.
 
 =head1 METHODS
 
@@ -27,25 +40,27 @@ contact the author.
 
 =over 4
 
-=item B<new> [NICKNAME], OPTIONS
+=item B<new> [NAME], OPTIONS
 
 (Class method) 
 Create a new user identity, which will contain all data related 
 to a single physical human being.  Most user data can only be
 specified at object construction, because they should never
-change.  A NICKNAME may be specified as first argument, but also
-as option.
+change.  A NAME may be specified as first argument, but also
+as option, one way or the other is required..
 
  OPTION               DEFAULT
- charset              'us-ascii'
+ charset              $ENV{LC_CTYPE}
  courtesy             undef
  date_of_birth        undef
+ description          undef
  firstname            undef
  formal_name          undef
  full_name            undef
  gender               undef
  initials             undef
- language             undef
+ language             'en'
+ name                 <required>
  nickname             undef
  prefix               undef
  surname              undef
@@ -59,6 +74,10 @@ as option.
 
 =item B<date_of_birth> =E<gt> DATE
 
+=item B<description> =E<gt> STRING
+
+See User::Identity::Item::new(description)
+
 =item B<firstname> =E<gt> STRING
 
 =item B<formal_name> =E<gt> STRING
@@ -70,6 +89,10 @@ as option.
 =item B<initials> =E<gt> STRING
 
 =item B<language> =E<gt> STRING
+
+=item B<name> =E<gt> STRING
+
+See User::Identity::Item::new(name)
 
 =item B<nickname> =E<gt> STRING
 
@@ -112,13 +135,14 @@ birthday, the number is incremented already.
 =item B<birth> 
 
 Returns the date in standardized format: YYYYMMDD, easy to sort and
-select.  This may return undef, even if the dateOfBirth() contains
+select.  This may return C<undef>, even if the dateOfBirth() contains
 a value, simply because the format is not understood. Month or day may
 contain '00' to indicate that those values are not known.
 
 =item B<charset> 
 
-The user's prefered character set.
+The user's prefered character set, which defaults to the value of
+LC_CTYPE environment variable.
 
 =item B<courtesy> 
 
@@ -130,14 +154,21 @@ This often provides a way to find the gender of someone addressed.
 
 Returns the date of birth, as specified during instantiation.
 
+=item B<description> 
+
+See User::Identity::Item::description()
+
 =item B<firstname> 
+
+Returns the first name of the user.  If it is not defined explicitly, it
+is derived from the nickname, and than capitalized if needed.
 
 =item B<formalName> 
 
 Returns a formal name for the user.  If not defined as instantiation
-parameter, it is constructed from other available information, which
-may result in an incorrect or an incomplete name.  The result is built
-from "courtesy initials prefix surname title".
+parameter (see new()), it is constructed from other available information,
+which may result in an incorrect or an incomplete name.  The result is
+built from "courtesy initials prefix surname title".
 
 =item B<fullName> 
 
@@ -162,29 +193,30 @@ firstname.
 
 =item B<isFemale> 
 
-See isMale(): return true if we are sure it is a woman.
+See isMale(): return true if we are sure the user is a woman.
 
 =item B<isMale> 
 
 Returns true if we are sure that the user is male.  This is specified as
-gender at instantiation, or derived from the courtesy value.  Method
+gender at instantiation, or derived from the courtesy value.  Methods
 isMale and isFemale are not complementatory: they can both return false
 for the same user, in which case the gender is undertermined.
 
 =item B<language> 
 
 Can contain a list or a single language name, as defined by the RFC
-Examples are 'en', 'en-GB', 'nl-BE'.
+Examples are 'en', 'en-GB', 'nl-BE'.  The default language  is 'en'
+(English).
 
-in scalar context only one value
-is returned (the first in case of a list) as preferred language of the
-person.  In list context, all (or the only one) value is returned.
+=item B<name> 
+
+See User::Identity::Item::name()
 
 =item B<nickname> 
 
 Returns the user's nickname, which could be used as username, e-mail
-alias, or such.  When no nick is specified, firstname() is called,
-and all characters converted to lower case.
+alias, or such.  When no nickname was explicitly specified, the name is
+used.
 
 =item B<prefix> 
 
@@ -196,9 +228,9 @@ Returns the surname of person, or C<undef> if that is not known.
 
 =item B<titles> 
 
-The titles, degrees in education or of other kind.  If these are complex, you
-may need to specify a formal name as well because formatting sometimes
-failes.
+The titles, degrees in education or of other kind.  If these are complex,
+you may need to specify the formal name of the users as well, because
+smart formatting probably failes.
 
 =back
 
@@ -209,9 +241,13 @@ failes.
 =item B<add> COLLECTION, ROLE
 
 The ROLE is added to the COLLECTION.  The COLLECTION is the name of a
-collection, which will be created automatically with addCollection if
-needed.  The ROLE is anything what is acceptable to addRole() of the
-collection at hand, and is returned.
+collection, which will be created automatically with addCollection() if
+needed.  The COLLECTION can also be specified as existing collection object.
+
+The ROLE is anything what is acceptable to addRole() of the
+collection at hand, and is returned.  ROLE typically is a list of
+parameters for one role, or a reference to an array containing these
+values.
 
 Examples:
 
@@ -222,13 +258,16 @@ Examples:
  my $travel = User::Identity::Location->new(travel => ...);
  $ui->add(location => $travel);
 
+ my $system = User::Identity::Collection::System->new(...);
+ $ui->add($system => 'localhost');
+
 =item B<addCollection> OBJECT | ([TYPE], OPTIONS)
 
-Add a new collect of roles to the user.  This can be achieved in two ways:
-either create anu User::Identity::Collection OBJECT yourself and then
+Add a new collection of roles to the user.  This can be achieved in two ways:
+either create an User::Identity::Collection OBJECT yourself and then
 pass that to this method, or supply all the OPTIONS needed to create such
 an object and it will be created for you.  The object which is added is
-returned.
+returned, and can be used for many methods directly.
 
 For OPTIONS, see the specific type of collection.  Additional options are
 listed below.
@@ -257,7 +296,7 @@ Examples:
 
 =item B<collection> NAME
 
-In scalar context with only a NAME, the collection object is returned.
+In scalar context the collection object with the NAME is returned.
 In list context, all the roles within the collection are returned.
 
 Examples:
@@ -269,11 +308,16 @@ Examples:
 =item B<find> COLLECTION, ROLE
 
 Returns the object with the specified ROLE within the named collection.
+The collection can be specified as name or object.
 
 Examples:
 
  my $role  = $me->find(location => 'work');       # one location
  my $role  = $me->collection('location')->find('work'); # same
+
+ my $email = $me->addCollection('email');
+ $me->find($email => 'work');
+ $email->find('work');   # same
 
 =back
 
@@ -288,7 +332,7 @@ with the help of many.  See the ChangeLog for details.
 
 =head1 VERSION
 
-This code is beta, version 0.02.
+This code is beta, version 0.03.
 
 Copyright (c) 2003 by the authors. All rights reserved.
 This program is free software; you can redistribute it and/or modify
