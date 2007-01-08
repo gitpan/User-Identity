@@ -1,14 +1,11 @@
-
 =head1 NAME
 
 User::Identity::Location - physical location of a person
 
-
 =head1 INHERITANCE
 
  User::Identity::Location
-   is a User::Identity::Item
-
+   is an User::Identity::Item
 
 =head1 SYNOPSIS
 
@@ -24,7 +21,6 @@ User::Identity::Location - physical location of a person
  my $me   = User::Identity->new(...);
  my $addr = $me->add(location => ...);
 
-
 =head1 DESCRIPTION
 
 The C<User::Identity::Location> object contains the description of a physical
@@ -34,13 +30,9 @@ by a L<User::Identity::Collection::Locations|User::Identity::Collection::Locatio
 Nearly all methods can return C<undef>.  Some methods produce language or
 country specific output.
 
-
-
 =head1 METHODS
 
-
 =head2 Constructors
-
 
 User::Identity::Location-E<gt>B<new>([NAME], OPTIONS)
 
@@ -49,21 +41,21 @@ User::Identity::Location-E<gt>B<new>([NAME], OPTIONS)
 Create a new location.  You can specify a name as first argument, or
 in the OPTION list.  Without a specific name, the organization is used as name.
 
- Option        Defined in       Default             
- country                        undef               
- country_code                   undef               
- description   L<User::Identity::Item>  undef               
- fax                            undef               
- name          L<User::Identity::Item>  <required>          
- organization                   undef               
- parent        L<User::Identity::Item>  C<undef>            
- pc                             C<undef>            
- phone                          undef               
- pobox                          undef               
- pobox_pc                       undef               
+ Option      --Defined in     --Default
+ country                        undef
+ country_code                   undef
+ description   User::Identity::Item  undef
+ fax                            undef
+ name          User::Identity::Item  <required>
+ organization                   undef
+ parent        User::Identity::Item  undef
+ pc                             undef
+ phone                          undef
+ pobox                          undef
+ pobox_pc                       undef
  postal_code                    <value of option pc>
- state                          undef               
- street                         undef               
+ state                          undef
+ street                         undef
 
 . country STRING
 
@@ -102,7 +94,6 @@ Short name for C<postal_code>.
 =back
 
 =head2 Attributes
-
 
 $obj-E<gt>B<city>
 
@@ -237,7 +228,6 @@ unicode in strings, so why not format the address nicely?
 
 =head2 Collections
 
-
 $obj-E<gt>B<add>(COLLECTION, ROLE)
 
 =over 4
@@ -304,8 +294,6 @@ See L<User::Identity::Item/"Collections">
 
 =back
 
-
-
 =head1 DIAGNOSTICS
 
 I<Error:> $object is not a collection.
@@ -335,23 +323,16 @@ I<Warning:> No collection $name
 
 The collection with $name does not exist and can not be created.
 
+=head1 SEE ALSO
 
+This module is part of User-Identity distribution version 0.91,
+built on January 08, 2007. Website: F<http://perl.overmeer.net/userid/>
 
+=head1 LICENSE
 
+Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>.For other contributors see Changes.
 
-
-=head1 REFERENCES
-
-See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
-
-=head1 COPYRIGHTS
-
-User::Identity version 0.90.
-Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
-other contributors.
-
-Copyright (c) 2003 by the author(s). All rights reserved.  This program
-is free software; you can redistribute it and/or modify it under the
-same terms as Perl itself.
-
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+See F<http://www.perl.com/perl/misc/Artistic.html>
 

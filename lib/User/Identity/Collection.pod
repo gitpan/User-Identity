@@ -1,20 +1,17 @@
-
 =head1 NAME
 
 User::Identity::Collection - base class for collecting roles of a user
 
-
 =head1 INHERITANCE
 
  User::Identity::Collection
-   is a User::Identity::Item
+   is an User::Identity::Item
 
  User::Identity::Collection is extended by
    User::Identity::Collection::Emails
    User::Identity::Collection::Locations
    User::Identity::Collection::Systems
    User::Identity::Collection::Users
-
 
 =head1 SYNOPSIS
 
@@ -40,14 +37,12 @@ User::Identity::Collection - base class for collecting roles of a user
  my $role  = $me->collection('location')->find('work');
  my $role  = $me->find(location => 'work');
 
-
 =head1 DESCRIPTION
 
 The C<User::Identity::Collection> object maintains a set user related
 objects.  It helps selecting these objects, which is partially common to
 all collections (for instance, each object has a name so you can search
 on names), and sometimes specific to the extension of this collection.
-
 
 Currently imlemented extensions are
 
@@ -56,17 +51,18 @@ Currently imlemented extensions are
 =item * I<people> is a L<collection of users|User::Identity::Collection::Users>
 
 =item * I<whereabouts> are L<locations|User::Identity::Collection::Locations>
+
 =item * a I<mailinglist> is a
 
 L<collection of email addresses|User::Identity::Collection::Emails>
+
 =item * a I<network> contains
 
 L<groups of systems|User::Identity::Collection::Systems>
+
 =back
 
-
 =head1 OVERLOADED
-
 
 overload: B<@{}>
 
@@ -95,23 +91,20 @@ I<Example:>
 
 =back
 
-
 =head1 METHODS
 
-
 =head2 Constructors
-
 
 User::Identity::Collection-E<gt>B<new>([NAME], OPTIONS)
 
 =over 4
 
- Option       Defined in       Default   
- description  L<User::Identity::Item>  undef     
+ Option     --Defined in     --Default
+ description  User::Identity::Item  undef
  item_type                     <required>
- name         L<User::Identity::Item>  <required>
- parent       L<User::Identity::Item>  C<undef>  
- roles                         undef     
+ name         User::Identity::Item  <required>
+ parent       User::Identity::Item  undef
+ roles                         undef
 
 . description STRING
 
@@ -142,7 +135,6 @@ to create a role.
 =back
 
 =head2 Attributes
-
 
 $obj-E<gt>B<description>
 
@@ -178,7 +170,6 @@ are returned in random (hash) order.
 =back
 
 =head2 Collections
-
 
 $obj-E<gt>B<add>(COLLECTION, ROLE)
 
@@ -240,7 +231,6 @@ See L<User::Identity::Item/"Collections">
 
 =head2 Maintaining roles
 
-
 $obj-E<gt>B<addRole>(ROLE| ( [NAME],OPTIONS ) | ARRAY-OF-OPTIONS)
 
 =over 4
@@ -294,7 +284,6 @@ Returns the roles sorted by name, alphabetically and case-sensitive.
 
 =head2 Searching
 
-
 $obj-E<gt>B<find>(NAME|CODE|undef)
 
 =over 4
@@ -326,8 +315,6 @@ I<Example:>
 
 =back
 
-
-
 =head1 DIAGNOSTICS
 
 I<Error:> $object is not a collection.
@@ -349,9 +336,7 @@ Maybe you forgot the 'require' the package which defines the nickname.
 
 I<Error:> Cannot rename $name into $newname: already exists
 
-
 I<Error:> Cannot rename $name into $newname: doesn't exist
-
 
 I<Error:> Creation of a collection via $class failed.
 
@@ -373,23 +358,16 @@ I<Error:> Wrong type of role for $collection: requires a $expect but got a $type
 Each $collection groups sets of roles of one specific type ($expect).  You
 cannot add objects of a different $type.
 
+=head1 SEE ALSO
 
+This module is part of User-Identity distribution version 0.91,
+built on January 08, 2007. Website: F<http://perl.overmeer.net/userid/>
 
+=head1 LICENSE
 
+Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>.For other contributors see Changes.
 
-
-=head1 REFERENCES
-
-See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
-
-=head1 COPYRIGHTS
-
-User::Identity version 0.90.
-Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
-other contributors.
-
-Copyright (c) 2003 by the author(s). All rights reserved.  This program
-is free software; you can redistribute it and/or modify it under the
-same terms as Perl itself.
-
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+See F<http://www.perl.com/perl/misc/Artistic.html>
 

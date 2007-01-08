@@ -1,7 +1,11 @@
+# Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>.
+# For other contributors see Changes.
+# See the manual pages for details on the licensing terms.
+# Pod stripped from pm file by OODoc 0.99.
 
 package User::Identity::Archive::Plain;
 use vars '$VERSION';
-$VERSION = '0.90';
+$VERSION = '0.91';
 use base 'User::Identity::Archive';
 
 use strict;
@@ -82,6 +86,7 @@ sub from($@)
 
     while(my $starter = $self->_get_line)
     {   $self->_accept_line;
+#warn "$verbose: $starter\n";
         my $indent = $self->_indentation($starter);
 
         print "  adding $starter" if $verbose > 1;
@@ -214,7 +219,8 @@ sub _collectItem($$)
 #warn "$class NAME=$name";
     my $warn     = 0;
     my $warn_sub = $SIG{__WARN__};
-    $SIG{__WARN__} = sub {$warn++; $warn_sub ? $warn_sub->(@_) : print STDERR @_};
+    $SIG{__WARN__}
+       = sub {$warn++; $warn_sub ? $warn_sub->(@_) : print STDERR @_};
 
     my $item = $class->new(name => $name, @fields);
     $SIG{__WARN__} = $warn_sub;
@@ -224,6 +230,7 @@ sub _collectItem($$)
         $linenr -= 1;
         warn "  found in $source around line $linenr\n";
     }
+#warn $_->type foreach @items;
 
     $item->add($_->type => $_) foreach @items;
     $item;

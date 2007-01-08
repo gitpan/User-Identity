@@ -1,35 +1,26 @@
-
 =head1 NAME
 
 User::Identity::Item - general base class for User::Identity
 
-
-
 =head1 SYNOPSIS
-
-
 
 =head1 DESCRIPTION
 
 The C<User::Identity::Item> base class is extended into useful modules: it
 has no use by its own.
 
-
-
 =head1 METHODS
 
-
 =head2 Constructors
-
 
 User::Identity::Item-E<gt>B<new>([NAME], OPTIONS)
 
 =over 4
 
- Option       Defined in       Default   
- description                   undef     
+ Option     --Defined in     --Default
+ description                   undef
  name                          <required>
- parent                        C<undef>  
+ parent                        undef
 
 . description STRING
 
@@ -63,7 +54,6 @@ The encapsulating object: the object which collects this one.
 
 =head2 Attributes
 
-
 $obj-E<gt>B<description>
 
 =over 4
@@ -89,7 +79,6 @@ call L<User::Identity::Collection::renameRole()|User::Identity::Collection/"Main
 =back
 
 =head2 Collections
-
 
 $obj-E<gt>B<add>(COLLECTION, ROLE)
 
@@ -132,7 +121,7 @@ returned, and can be used for many methods directly.
 For OPTIONS, see the specific type of collection.  Additional options are
 listed below.
 
- Option  Defined in  Default   
+ Option--Defined in--Default
  type                <required>
 
 . type STRING|CLASS
@@ -228,8 +217,6 @@ I<Example:>
 
 =back
 
-
-
 =head1 DIAGNOSTICS
 
 I<Error:> $object is not a collection.
@@ -274,23 +261,16 @@ I<Warning:> Unknown options @names for a $class
 
 More than one option is not defined.
 
+=head1 SEE ALSO
 
+This module is part of User-Identity distribution version 0.91,
+built on January 08, 2007. Website: F<http://perl.overmeer.net/userid/>
 
+=head1 LICENSE
 
+Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>.For other contributors see Changes.
 
-
-=head1 REFERENCES
-
-See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
-
-=head1 COPYRIGHTS
-
-User::Identity version 0.90.
-Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
-other contributors.
-
-Copyright (c) 2003 by the author(s). All rights reserved.  This program
-is free software; you can redistribute it and/or modify it under the
-same terms as Perl itself.
-
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+See F<http://www.perl.com/perl/misc/Artistic.html>
 

@@ -1,14 +1,11 @@
-
 =head1 NAME
 
 User::Identity - maintains info about a physical person
 
-
 =head1 INHERITANCE
 
  User::Identity
-   is a User::Identity::Item
-
+   is an User::Identity::Item
 
 =head1 SYNOPSIS
 
@@ -20,7 +17,6 @@ User::Identity - maintains info about a physical person
   );
  print $me->fullName  # prints "John Doe"
  print $me;           # same
-
 
 =head1 DESCRIPTION
 
@@ -37,9 +33,7 @@ or whatever.  Extension to simplify this task are still to be developed.
 If you need more kinds of user information, then please contact the
 module author.
 
-
 =head1 OVERLOADED
-
 
 $obj-E<gt>B<stringification>
 
@@ -56,12 +50,9 @@ I<Example:>
 
 =back
 
-
 =head1 METHODS
 
-
 =head2 Constructors
-
 
 User::Identity-E<gt>B<new>([NAME], OPTIONS)
 
@@ -73,23 +64,23 @@ specified at object construction, because they should never
 change.  A NAME may be specified as first argument, but also
 as option, one way or the other is required.
 
- Option       Defined in       Default       
- birth                         undef         
+ Option     --Defined in     --Default
+ birth                         undef
  charset                       $ENV{LC_CTYPE}
- courtesy                      undef         
- description  L<User::Identity::Item>  undef         
- firstname                     undef         
- formal_name                   undef         
- full_name                     undef         
- gender                        undef         
- initials                      undef         
- language                      'en'          
- name         L<User::Identity::Item>  <required>    
- nickname                      undef         
- parent       L<User::Identity::Item>  C<undef>      
- prefix                        undef         
- surname                       undef         
- titles                        undef         
+ courtesy                      undef
+ description  User::Identity::Item  undef
+ firstname                     undef
+ formal_name                   undef
+ full_name                     undef
+ gender                        undef
+ initials                      undef
+ language                      'en'
+ name         User::Identity::Item  <required>
+ nickname                      undef
+ parent       User::Identity::Item  undef
+ prefix                        undef
+ surname                       undef
+ titles                        undef
 
 . birth DATE
 
@@ -126,7 +117,6 @@ as option, one way or the other is required.
 =back
 
 =head2 Attributes
-
 
 $obj-E<gt>B<age>
 
@@ -311,7 +301,6 @@ smart formatting probably failes.
 
 =head2 Collections
 
-
 $obj-E<gt>B<add>(COLLECTION, ROLE)
 
 =over 4
@@ -378,8 +367,6 @@ See L<User::Identity::Item/"Collections">
 
 =back
 
-
-
 =head1 DIAGNOSTICS
 
 I<Error:> $object is not a collection.
@@ -409,23 +396,16 @@ I<Warning:> No collection $name
 
 The collection with $name does not exist and can not be created.
 
+=head1 SEE ALSO
 
+This module is part of User-Identity distribution version 0.91,
+built on January 08, 2007. Website: F<http://perl.overmeer.net/userid/>
 
+=head1 LICENSE
 
+Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>.For other contributors see Changes.
 
-
-=head1 REFERENCES
-
-See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
-
-=head1 COPYRIGHTS
-
-User::Identity version 0.90.
-Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
-other contributors.
-
-Copyright (c) 2003 by the author(s). All rights reserved.  This program
-is free software; you can redistribute it and/or modify it under the
-same terms as Perl itself.
-
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+See F<http://www.perl.com/perl/misc/Artistic.html>
 

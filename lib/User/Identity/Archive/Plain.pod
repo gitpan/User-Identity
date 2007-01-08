@@ -1,15 +1,12 @@
-
 =head1 NAME
 
 User::Identity::Archive::Plain - simple, plain text archiver
 
-
 =head1 INHERITANCE
 
  User::Identity::Archive::Plain
-   is a User::Identity::Archive
-   is a User::Identity::Item
-
+   is an User::Identity::Archive
+   is an User::Identity::Item
 
 =head1 SYNOPSIS
 
@@ -18,36 +15,30 @@ User::Identity::Archive::Plain - simple, plain text archiver
  $friends->from(\*FH);
  $friends->from('.friends');
 
-
 =head1 DESCRIPTION
 
 This archiver, which extends L<User::Identity::Archive|User::Identity::Archive>, uses a very
 simple plain text file to store the information of users.  The syntax
 is described in the DETAILS section, below.
 
-
 =head1 OVERLOADED
-
-
 
 =head1 METHODS
 
-
 =head2 Constructors
-
 
 User::Identity::Archive::Plain-E<gt>B<new>([NAME], OPTIONS)
 
 =over 4
 
- Option         Defined in       Default   
- abbreviations                   []        
- description    L<User::Identity::Item>  undef     
- from           L<User::Identity::Archive>  C<undef>  
- name           L<User::Identity::Item>  <required>
- only                            []        
- parent         L<User::Identity::Item>  C<undef>  
- tabstop                         8         
+ Option       --Defined in     --Default
+ abbreviations                   []
+ description    User::Identity::Item  undef
+ from           User::Identity::Archive  undef
+ name           User::Identity::Item  <required>
+ only                            []
+ parent         User::Identity::Item  undef
+ tabstop                         8
 
 . abbreviations HASH|ARRAY
 
@@ -88,7 +79,6 @@ Sets the default tab-stop width.
 =back
 
 =head2 Attributes
-
 
 $obj-E<gt>B<abbreviation>(NAME, [CLASS])
 
@@ -137,7 +127,6 @@ See L<User::Identity::Item/"Attributes">
 =back
 
 =head2 Collections
-
 
 $obj-E<gt>B<add>(COLLECTION, ROLE)
 
@@ -207,7 +196,6 @@ See L<User::Identity::Item/"Collections">
 
 =head2 Access to the archive
 
-
 $obj-E<gt>B<from>(FILEHANDLE|FILENAME|ARRAY, OPTIONS)
 
 =over 4
@@ -215,17 +203,15 @@ $obj-E<gt>B<from>(FILEHANDLE|FILENAME|ARRAY, OPTIONS)
 Read the plain text information from the specified FILEHANDLE, FILENAME,
 STRING, or ARRAY of lines.
 
- Option   Defined in       Default              
+ Option --Defined in     --Default
  tabstop                   <default from object>
- verbose                   0                    
+ verbose                   0
 
 . tabstop INTEGER
 
 . verbose INTEGER
 
 =back
-
-
 
 =head1 DIAGNOSTICS
 
@@ -243,7 +229,6 @@ Maybe you forgot the 'require' the package which defines the nickname.
 
 I<Warning:> Cannot read archive from $source
 
-
 I<Error:> Creation of a collection via $class failed.
 
 The $class did compile, but it was not possible to create an object
@@ -259,12 +244,9 @@ I<Warning:> No collection $name
 
 The collection with $name does not exist and can not be created.
 
-
 =head1 DETAILS
 
-
 =head2 The Plain Archiver Format
-
 
 =head3 Simplified class names
 
@@ -385,22 +367,16 @@ one defined is
 which can be used to change the meaning of tabs in the file.  The default
 setting is 8, but some people prefer 4 (or other values).
 
+=head1 SEE ALSO
 
+This module is part of User-Identity distribution version 0.91,
+built on January 08, 2007. Website: F<http://perl.overmeer.net/userid/>
 
+=head1 LICENSE
 
+Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>.For other contributors see Changes.
 
-=head1 REFERENCES
-
-See the User::Identity website at L<http://perl.overmeer.net/userid/> for more details.
-
-=head1 COPYRIGHTS
-
-User::Identity version 0.90.
-Written by Mark Overmeer (mark@overmeer.net).  See the ChangeLog for
-other contributors.
-
-Copyright (c) 2003 by the author(s). All rights reserved.  This program
-is free software; you can redistribute it and/or modify it under the
-same terms as Perl itself.
-
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+See F<http://www.perl.com/perl/misc/Artistic.html>
 
