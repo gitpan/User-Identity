@@ -42,7 +42,7 @@ $obj-E<gt>B<stringification>
 When an C<User::Identity> is used as string, it is automatically
 translated into the fullName() of the user involved.
 
-I<Example:> 
+example: 
 
  my $me = User::Identity->new(...)
  print $me;          # same as  print $me->fullName
@@ -82,37 +82,37 @@ as option, one way or the other is required.
  surname                       undef
  titles                        undef
 
-. birth DATE
+. birth => DATE
 
-. charset STRING
+. charset => STRING
 
-. courtesy STRING
+. courtesy => STRING
 
-. description STRING
+. description => STRING
 
-. firstname STRING
+. firstname => STRING
 
-. formal_name STRING
+. formal_name => STRING
 
-. full_name STRING
+. full_name => STRING
 
-. gender STRING
+. gender => STRING
 
-. initials STRING
+. initials => STRING
 
-. language STRING
+. language => STRING
 
-. name STRING
+. name => STRING
 
-. nickname STRING
+. nickname => STRING
 
-. parent OBJECT
+. parent => OBJECT
 
-. prefix STRING
+. prefix => STRING
 
-. surname STRING
+. surname => STRING
 
-. titles STRING
+. titles => STRING
 
 =back
 
@@ -369,41 +369,61 @@ See L<User::Identity::Item/"Collections">
 
 =head1 DIAGNOSTICS
 
-I<Error:> $object is not a collection.
+Error: $object is not a collection.
+
+=over 4
 
 The first argument is an object, but not of a class which extends
 L<User::Identity::Collection|User::Identity::Collection>.
 
-I<Error:> Cannot load collection module for $type ($class).
+=back
+
+Error: Cannot load collection module for $type ($class).
+
+=over 4
 
 Either the specified $type does not exist, or that module named $class returns
 compilation errors.  If the type as specified in the warning is not
 the name of a package, you specified a nickname which was not defined.
 Maybe you forgot the 'require' the package which defines the nickname.
 
-I<Error:> Creation of a collection via $class failed.
+=back
+
+Error: Creation of a collection via $class failed.
+
+=over 4
 
 The $class did compile, but it was not possible to create an object
 of that class using the options you specified.
 
-I<Error:> Don't know what type of collection you want to add.
+=back
+
+Error: Don't know what type of collection you want to add.
+
+=over 4
 
 If you add a collection, it must either by a collection object or a
 list of options which can be used to create a collection object.  In
 the latter case, the type of collection must be specified.
 
-I<Warning:> No collection $name
+=back
+
+Warning: No collection $name
+
+=over 4
 
 The collection with $name does not exist and can not be created.
 
+=back
+
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.91,
-built on January 08, 2007. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.92,
+built on July 25, 2007. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>.For other contributors see Changes.
+Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -17,12 +17,12 @@ User::Identity::Item-E<gt>B<new>([NAME], OPTIONS)
 
 =over 4
 
- Option     --Defined in     --Default
- description                   undef
- name                          <required>
- parent                        undef
+ Option     --Default
+ description  undef
+ name         <required>
+ parent       undef
 
-. description STRING
+. description => STRING
 
 =over 4
 
@@ -30,7 +30,7 @@ Free format description on the collected item.
 
 =back
 
-. name STRING
+. name => STRING
 
 =over 4
 
@@ -42,7 +42,7 @@ this a nickname.
 
 =back
 
-. parent OBJECT
+. parent => OBJECT
 
 =over 4
 
@@ -94,7 +94,7 @@ collection at hand, and is returned.  ROLE typically is a list of
 parameters for one role, or a reference to an array containing these
 values.
 
-I<Example:> 
+example: 
 
  my $ui   = User::Identity->new(...);
  my $home = $ui->add(location => [home => street => '27 Roadstreet', ...] );
@@ -121,10 +121,10 @@ returned, and can be used for many methods directly.
 For OPTIONS, see the specific type of collection.  Additional options are
 listed below.
 
- Option--Defined in--Default
- type                <required>
+ Option--Default
+ type    <required>
 
-. type STRING|CLASS
+. type => STRING|CLASS
 
 =over 4
 
@@ -134,7 +134,7 @@ Predefined type nicknames are C<email>, C<system>, and C<location>.
 
 =back
 
-I<Example:> 
+example: 
 
  my $me   = User::Identity->new(...);
  my $locs = User::Identity::Collection::Locations->new();
@@ -152,7 +152,7 @@ $obj-E<gt>B<collection>(NAME)
 In scalar context the collection object with the NAME is returned.
 In list context, all the roles within the collection are returned.
 
-I<Example:> 
+example: 
 
  my @roles = $me->collection('email');        # list of collected items
  my @roles = $me->collection('email')->roles; # same of collected items
@@ -167,7 +167,7 @@ $obj-E<gt>B<find>(COLLECTION, ROLE)
 Returns the object with the specified ROLE within the named collection.
 The collection can be specified as name or object.
 
-I<Example:> 
+example: 
 
  my $role  = $me->find(location => 'work');       # one location
  my $role  = $me->collection('location')->find('work'); # same
@@ -211,7 +211,7 @@ Go from this object to its parent, to its parent, and so on, until a
 L<User::Identity|User::Identity> is found or the top of the object tree has been
 reached.
 
-I<Example:> 
+example: 
 
  print $email->user->fullName;
 
@@ -219,56 +219,88 @@ I<Example:>
 
 =head1 DIAGNOSTICS
 
-I<Error:> $object is not a collection.
+Error: $object is not a collection.
+
+=over 4
 
 The first argument is an object, but not of a class which extends
 L<User::Identity::Collection|User::Identity::Collection>.
 
-I<Error:> Cannot load collection module for $type ($class).
+=back
+
+Error: Cannot load collection module for $type ($class).
+
+=over 4
 
 Either the specified $type does not exist, or that module named $class returns
 compilation errors.  If the type as specified in the warning is not
 the name of a package, you specified a nickname which was not defined.
 Maybe you forgot the 'require' the package which defines the nickname.
 
-I<Error:> Creation of a collection via $class failed.
+=back
+
+Error: Creation of a collection via $class failed.
+
+=over 4
 
 The $class did compile, but it was not possible to create an object
 of that class using the options you specified.
 
-I<Error:> Don't know what type of collection you want to add.
+=back
+
+Error: Don't know what type of collection you want to add.
+
+=over 4
 
 If you add a collection, it must either by a collection object or a
 list of options which can be used to create a collection object.  In
 the latter case, the type of collection must be specified.
 
-I<Error:> Each item requires a name
+=back
+
+Error: Each item requires a name
+
+=over 4
 
 You have to specify a name for each item.  These names need to be
 unique within one collection, but feel free to give the same name
 to an e-mail address and a location.
 
-I<Warning:> No collection $name
+=back
+
+Warning: No collection $name
+
+=over 4
 
 The collection with $name does not exist and can not be created.
 
-I<Warning:> Unknown option $name for a $class
+=back
+
+Warning: Unknown option $name for a $class
+
+=over 4
 
 One used option is not defined.  Check the manual page of the class to
 see which options are accepted.
 
-I<Warning:> Unknown options @names for a $class
+=back
+
+Warning: Unknown options @names for a $class
+
+=over 4
 
 More than one option is not defined.
 
+=back
+
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.91,
-built on January 08, 2007. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.92,
+built on July 25, 2007. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>.For other contributors see Changes.
+Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
