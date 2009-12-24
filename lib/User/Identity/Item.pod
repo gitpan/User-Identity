@@ -2,6 +2,16 @@
 
 User::Identity::Item - general base class for User::Identity
 
+=head1 INHERITANCE
+
+ User::Identity::Item is extended by
+   Mail::Identity
+   User::Identity
+   User::Identity::Archive
+   User::Identity::Collection
+   User::Identity::Location
+   User::Identity::System
+
 =head1 SYNOPSIS
 
 =head1 DESCRIPTION
@@ -295,12 +305,12 @@ More than one option is not defined.
 
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.92,
-built on July 25, 2007. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.93,
+built on December 24, 2009. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
+Copyrights 2003,2004,2007-2009 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

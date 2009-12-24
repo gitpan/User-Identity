@@ -5,7 +5,7 @@ User::Identity::Collection - base class for collecting roles of a user
 =head1 INHERITANCE
 
  User::Identity::Collection
-   is an User::Identity::Item
+   is a User::Identity::Item
 
  User::Identity::Collection is extended by
    User::Identity::Collection::Emails
@@ -396,12 +396,12 @@ cannot add objects of a different $type.
 
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.92,
-built on July 25, 2007. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.93,
+built on December 24, 2009. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
+Copyrights 2003,2004,2007-2009 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

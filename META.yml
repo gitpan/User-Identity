@@ -1,14 +1,14 @@
 --- #YAML:1.0
 name:                User-Identity
-version:             0.92
+version:             0.93
 abstract:            Collect information about a user
 license:             perl
-generated_by:        ExtUtils::MakeMaker version 6.32
+author:              
+    - Mark Overmeer <perl@overmeer.net>
+generated_by:        ExtUtils::MakeMaker version 6.42
 distribution_type:   module
 requires:     
     Test::Pod:                     1
 meta-spec:
-    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
-    version: 1.2
-author:
-    - Mark Overmeer <perl@overmeer.net>
+    url:     http://module-build.sourceforge.net/META-spec-v1.3.html
+    version: 1.3
