@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 User::Identity::Item - general base class for User::Identity
@@ -23,26 +25,22 @@ has no use by its own.
 
 =head2 Constructors
 
-User::Identity::Item-E<gt>B<new>([NAME], OPTIONS)
-
 =over 4
 
- Option     --Default
- description  undef
- name         <required>
- parent       undef
+=item User::Identity::Item-E<gt>B<new>( [NAME], OPTIONS )
 
-. description => STRING
+ -Option     --Default
+  description  undef
+  name         <required>
+  parent       undef
 
-=over 4
+=over 2
+
+=item description => STRING
 
 Free format description on the collected item.
 
-=back
-
-. name => STRING
-
-=over 4
+=item name => STRING
 
 A simple name for this item.  Try to give a useful name in the context of
 the item time.  Each time when you lookup items, you need to specify
@@ -50,11 +48,7 @@ this name, so it should be unique and not to hard to handle in your program.
 For instance, when a person is addressed, you usually will give him/her
 this a nickname.
 
-=back
-
-. parent => OBJECT
-
-=over 4
+=item parent => OBJECT
 
 The encapsulating object: the object which collects this one.
 
@@ -64,20 +58,16 @@ The encapsulating object: the object which collects this one.
 
 =head2 Attributes
 
-$obj-E<gt>B<description>
-
 =over 4
+
+=item $obj-E<gt>B<description>()
 
 Free format description on this item.  Please do not add
 any significance to the content of this field: if you are in need
 for an extra attribute, please contact the author of the module to
 implement it, or extend the object to suit your needs.
 
-=back
-
-$obj-E<gt>B<name>([NEWNAME])
-
-=over 4
+=item $obj-E<gt>B<name>( [NEWNAME] )
 
 The name of this item.  Names are unique within a collection... a second
 object with the same name within any collection will destroy the already
@@ -90,9 +80,9 @@ call L<User::Identity::Collection::renameRole()|User::Identity::Collection/"Main
 
 =head2 Collections
 
-$obj-E<gt>B<add>(COLLECTION, ROLE)
-
 =over 4
+
+=item $obj-E<gt>B<add>(COLLECTION, ROLE)
 
 The ROLE is added to the COLLECTION.  The COLLECTION is the name of a
 collection, which will be created automatically with L<addCollection()|User::Identity::Item/"Collections"> if
@@ -116,11 +106,7 @@ example:
  my $system = User::Identity::Collection::System->new(...);
  $ui->add($system => 'localhost');
 
-=back
-
-$obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
-
-=over 4
+=item $obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
 
 Add a new collection of roles to an item.  This can be achieved in two ways:
 either create an L<User::Identity::Collection|User::Identity::Collection> OBJECT yourself and then
@@ -131,12 +117,12 @@ returned, and can be used for many methods directly.
 For OPTIONS, see the specific type of collection.  Additional options are
 listed below.
 
- Option--Default
- type    <required>
+ -Option--Default
+  type    <required>
 
-. type => STRING|CLASS
+=over 2
 
-=over 4
+=item type => STRING|CLASS
 
 The nickname of a collection class or the CLASS name itself of the
 object to be created.  Required if an object has to be created.
@@ -153,11 +139,7 @@ example:
  my $email = $me->addCollection(type => 'email');
  my $email = $me->addCollection('email');
 
-=back
-
-$obj-E<gt>B<collection>(NAME)
-
-=over 4
+=item $obj-E<gt>B<collection>(NAME)
 
 In scalar context the collection object with the NAME is returned.
 In list context, all the roles within the collection are returned.
@@ -168,11 +150,7 @@ example:
  my @roles = $me->collection('email')->roles; # same of collected items
  my $coll  = $me->collection('email');        # a User::Identity::Collection
 
-=back
-
-$obj-E<gt>B<find>(COLLECTION, ROLE)
-
-=over 4
+=item $obj-E<gt>B<find>(COLLECTION, ROLE)
 
 Returns the object with the specified ROLE within the named collection.
 The collection can be specified as name or object.
@@ -186,36 +164,20 @@ example:
  $me->find($email => 'work');
  $email->find('work');   # same
 
-=back
-
-$obj-E<gt>B<parent>([PARENT])
-
-=over 4
+=item $obj-E<gt>B<parent>( [PARENT] )
 
 Returns the parent of an Item (the enclosing item).  This may return C<undef>
 if the object is stand-alone.
 
-=back
+=item $obj-E<gt>B<removeCollection>(OBJECT|NAME)
 
-$obj-E<gt>B<removeCollection>(OBJECT|NAME)
+=item $obj-E<gt>B<type>()
 
-=over 4
-
-=back
-
-$obj-E<gt>B<type>
-
-User::Identity::Item-E<gt>B<type>
-
-=over 4
+=item User::Identity::Item-E<gt>B<type>()
 
 Returns a nice symbolic name for the type.
 
-=back
-
-$obj-E<gt>B<user>
-
-=over 4
+=item $obj-E<gt>B<user>()
 
 Go from this object to its parent, to its parent, and so on, until a
 L<User::Identity|User::Identity> is found or the top of the object tree has been
@@ -229,75 +191,47 @@ example:
 
 =head1 DIAGNOSTICS
 
-Error: $object is not a collection.
-
 =over 4
+
+=item Error: $object is not a collection.
 
 The first argument is an object, but not of a class which extends
 L<User::Identity::Collection|User::Identity::Collection>.
 
-=back
-
-Error: Cannot load collection module for $type ($class).
-
-=over 4
+=item Error: Cannot load collection module for $type ($class).
 
 Either the specified $type does not exist, or that module named $class returns
 compilation errors.  If the type as specified in the warning is not
 the name of a package, you specified a nickname which was not defined.
 Maybe you forgot the 'require' the package which defines the nickname.
 
-=back
-
-Error: Creation of a collection via $class failed.
-
-=over 4
+=item Error: Creation of a collection via $class failed.
 
 The $class did compile, but it was not possible to create an object
 of that class using the options you specified.
 
-=back
-
-Error: Don't know what type of collection you want to add.
-
-=over 4
+=item Error: Don't know what type of collection you want to add.
 
 If you add a collection, it must either by a collection object or a
 list of options which can be used to create a collection object.  In
 the latter case, the type of collection must be specified.
 
-=back
-
-Error: Each item requires a name
-
-=over 4
+=item Error: Each item requires a name
 
 You have to specify a name for each item.  These names need to be
 unique within one collection, but feel free to give the same name
 to an e-mail address and a location.
 
-=back
-
-Warning: No collection $name
-
-=over 4
+=item Warning: No collection $name
 
 The collection with $name does not exist and can not be created.
 
-=back
-
-Warning: Unknown option $name for a $class
-
-=over 4
+=item Warning: Unknown option $name for a $class
 
 One used option is not defined.  Check the manual page of the class to
 see which options are accepted.
 
-=back
-
-Warning: Unknown options @names for a $class
-
-=over 4
+=item Warning: Unknown options @names for a $class
 
 More than one option is not defined.
 
@@ -305,12 +239,12 @@ More than one option is not defined.
 
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.93,
-built on December 24, 2009. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.94,
+built on January 24, 2014. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007-2009 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
+Copyrights 2003-2014 by [Mark Overmeer <perl@overmeer.net>]. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

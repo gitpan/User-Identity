@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 Mail::Identity - an e-mail role
@@ -40,124 +42,102 @@ and some fields are smart.  One such set of data represents one role.
 C<Mail::Identity> is therefore the smart cousine of the Mail::Address
 object.
 
+Extends L<"DESCRIPTION" in User::Identity::Item|User::Identity::Item/"DESCRIPTION">.
+ 
 =head1 METHODS
 
+Extends L<"METHODS" in User::Identity::Item|User::Identity::Item/"METHODS">.
+ 
 =head2 Constructors
 
-$obj-E<gt>B<from>(OBJECT)
-
+Extends L<"Constructors" in User::Identity::Item|User::Identity::Item/"Constructors">.
+ 
 =over 4
 
-Convert an OBJECT into a C<Mail::Identity>.  On the moment, you can
-specify Mail::Address and L<User::Identity|User::Identity> objects.  In the
-former case, a new C<Mail::Identity> is created containing the same
-information.  In the latter, the first address of the user is picked
-and returned.
+=item Mail::Identity-E<gt>B<new>( [NAME], OPTIONS )
 
-=back
+ -Option      --Defined in          --Default
+  address                             <username@domain or name>
+  charset                             <user's charset>
+  comment                             <user's fullname if phrase is different>
+  description   User::Identity::Item  undef
+  domain                              <from email or localhost>
+  language                            <from user>
+  location                            <random user's location>
+  name          User::Identity::Item  <phrase or user's fullName>
+  organization                        <location's organization>
+  parent        User::Identity::Item  undef
+  pgp_key                             undef
+  phrase                              <user's fullName>
+  signature                           undef
+  username                            <from address or user's nickname>
 
-Mail::Identity-E<gt>B<new>([NAME], OPTIONS)
+=over 2
 
-=over 4
-
- Option      --Defined in     --Default
- address                        <username@domain or name>
- charset                        <user's charset>
- comment                        <user's fullname if phrase is different>
- description   User::Identity::Item  undef
- domain                         <from email or localhost>
- language                       <from user>
- location                       <random user's location>
- name          User::Identity::Item  <phrase or user's fullName>
- organization                   <location's organization>
- parent        User::Identity::Item  undef
- pgp_key                        undef
- phrase                         <user's fullName>
- signature                      undef
- username                       <from address or user's nickname>
-
-. address => STRING
-
-=over 4
+=item address => STRING
 
 The e-mail address is constructed from the username/domain, but
 when both do not exist, the name is taken.
 
-=back
+=item charset => STRING
 
-. charset => STRING
+=item comment => STRING
 
-. comment => STRING
+=item description => STRING
 
-. description => STRING
+=item domain => STRING
 
-. domain => STRING
+=item language => STRING
 
-. language => STRING
-
-. location => NAME|OBJECT
-
-=over 4
+=item location => NAME|OBJECT
 
 The user's location which relates to this mail identity.  This can be
 specified as location name (which will be looked-up when needed), or
 as L<User::Identity::Location|User::Identity::Location> object.
 
-=back
+=item name => STRING
 
-. name => STRING
-
-. organization => STRING
-
-=over 4
+=item organization => STRING
 
 Usually defined for e-mail addresses which are used by a company or
 other organization, but less common for personal addresses.  This
 value will be used to fill the C<Organization> header field of messages.
 
-=back
+=item parent => OBJECT
 
-. parent => OBJECT
+=item pgp_key => STRING|FILENAME
 
-. pgp_key => STRING|FILENAME
+=item phrase => STRING
 
-. phrase => STRING
+=item signature => STRING
 
-. signature => STRING
-
-. username => STRING
+=item username => STRING
 
 =back
 
-=head2 Constructors
+=back
 
 =head2 Attributes
 
-$obj-E<gt>B<address>
-
+Extends L<"Attributes" in User::Identity::Item|User::Identity::Item/"Attributes">.
+ 
 =over 4
+
+=item $obj-E<gt>B<address>()
 
 Returns the e-mail address for this role.  If none was specified, it will
 be constructed from the username and domain.  If those are not present
 as well, then the L<name()|User::Identity::Item/"Attributes"> is used when it contains a C<@>, else the
 user's nickname is taken.
 
-=back
-
-$obj-E<gt>B<charset>
-
-=over 4
+=item $obj-E<gt>B<charset>()
 
 Returns the character set used in comment and phrase.  When set to
 C<undef>, the strings (are already encoded to) contain only ASCII
 characters.  This defaults to the value of the user's charset, if a user
 is defined.
 
-=back
-
-$obj-E<gt>B<comment>([STRING])
-
-=over 4
+=item $obj-E<gt>B<comment>( [STRING] )
 
 E-mail address -when included in message MIME headers- can contain a comment.
 The RFCs advice not to store useful information in these comments, but it
@@ -168,66 +148,38 @@ Comments will be enclosed in parenthesis when used. Parenthesis (matching)
 or non-matching) which are already in the string will carefully escaped
 when needed.  You do not need to worry.
 
-=back
+=item $obj-E<gt>B<description>()
 
-$obj-E<gt>B<description>
+Inherited, see L<User::Identity::Item/"Attributes">
 
-=over 4
-
-See L<User::Identity::Item/"Attributes">
-
-=back
-
-$obj-E<gt>B<domain>
-
-=over 4
+=item $obj-E<gt>B<domain>()
 
 The domain is the part of the e-mail address after the C<@>-sign.
 When this is not defined, it can be deducted from the email address
 (see L<address()|Mail::Identity/"Attributes">).  If nothing is known, C<localhost> is returned.
 
-=back
-
-$obj-E<gt>B<language>
-
-=over 4
+=item $obj-E<gt>B<language>()
 
 Returns the language which is used for the description fields of this
 e-mail address, which defaults to the user's language.
 
-=back
-
-$obj-E<gt>B<location>
-
-=over 4
+=item $obj-E<gt>B<location>()
 
 Returns the object which describes to which location this mail address relates.
 The location may be used to find the name of the organization involved, or
 to create a signature.  If no location is specified, but a user is defined
 which has locations, one of those is randomly chosen.
 
-=back
+=item $obj-E<gt>B<name>( [NEWNAME] )
 
-$obj-E<gt>B<name>([NEWNAME])
+Inherited, see L<User::Identity::Item/"Attributes">
 
-=over 4
-
-See L<User::Identity::Item/"Attributes">
-
-=back
-
-$obj-E<gt>B<organization>
-
-=over 4
+=item $obj-E<gt>B<organization>()
 
 Returns the organization which relates to this e-mail identity.  If not
 explicitly specified, it is tried to be found via the location.
 
-=back
-
-$obj-E<gt>B<phrase>
-
-=over 4
+=item $obj-E<gt>B<phrase>()
 
 The phrase is used in an e-mail address to explain who is sending the
 message.  This usually is the fullname (the user's fullname is used by
@@ -237,11 +189,7 @@ When an email string is produced, the phase will be quoted if needed.
 Quotes which are within the string will automatically be escaped, so
 you do no need to worry: input cannot break the outcome!
 
-=back
-
-$obj-E<gt>B<username>
-
-=over 4
+=item $obj-E<gt>B<username>()
 
 Returns the username of this e-mail address.  If none is specified, first
 it is tried to extract it from the specified e-mail address.  If there is
@@ -252,116 +200,74 @@ taken.
 
 =head2 Collections
 
-$obj-E<gt>B<add>(COLLECTION, ROLE)
-
+Extends L<"Collections" in User::Identity::Item|User::Identity::Item/"Collections">.
+ 
 =over 4
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<add>(COLLECTION, ROLE)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
+=item $obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<collection>(NAME)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<collection>(NAME)
+=item $obj-E<gt>B<find>(COLLECTION, ROLE)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<parent>( [PARENT] )
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<find>(COLLECTION, ROLE)
+=item $obj-E<gt>B<removeCollection>(OBJECT|NAME)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<type>()
 
-=back
+=item Mail::Identity-E<gt>B<type>()
 
-$obj-E<gt>B<parent>([PARENT])
+Inherited, see L<User::Identity::Item/"Collections">
 
-=over 4
+=item $obj-E<gt>B<user>()
 
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<removeCollection>(OBJECT|NAME)
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<type>
-
-Mail::Identity-E<gt>B<type>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<user>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
+Inherited, see L<User::Identity::Item/"Collections">
 
 =back
 
 =head1 DIAGNOSTICS
 
-Error: $object is not a collection.
-
 =over 4
+
+=item Error: $object is not a collection.
 
 The first argument is an object, but not of a class which extends
 L<User::Identity::Collection|User::Identity::Collection>.
 
-=back
-
-Error: Cannot load collection module for $type ($class).
-
-=over 4
+=item Error: Cannot load collection module for $type ($class).
 
 Either the specified $type does not exist, or that module named $class returns
 compilation errors.  If the type as specified in the warning is not
 the name of a package, you specified a nickname which was not defined.
 Maybe you forgot the 'require' the package which defines the nickname.
 
-=back
-
-Error: Creation of a collection via $class failed.
-
-=over 4
+=item Error: Creation of a collection via $class failed.
 
 The $class did compile, but it was not possible to create an object
 of that class using the options you specified.
 
-=back
-
-Error: Don't know what type of collection you want to add.
-
-=over 4
+=item Error: Don't know what type of collection you want to add.
 
 If you add a collection, it must either by a collection object or a
 list of options which can be used to create a collection object.  In
 the latter case, the type of collection must be specified.
 
-=back
-
-Warning: No collection $name
-
-=over 4
+=item Warning: No collection $name
 
 The collection with $name does not exist and can not be created.
 
@@ -369,12 +275,12 @@ The collection with $name does not exist and can not be created.
 
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.93,
-built on December 24, 2009. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.94,
+built on January 24, 2014. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007-2009 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
+Copyrights 2003-2014 by [Mark Overmeer <perl@overmeer.net>]. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

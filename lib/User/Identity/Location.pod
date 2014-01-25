@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 User::Identity::Location - physical location of a person
@@ -30,117 +32,105 @@ by a L<User::Identity::Collection::Locations|User::Identity::Collection::Locatio
 Nearly all methods can return C<undef>.  Some methods produce language or
 country specific output.
 
+Extends L<"DESCRIPTION" in User::Identity::Item|User::Identity::Item/"DESCRIPTION">.
+ 
 =head1 METHODS
 
+Extends L<"METHODS" in User::Identity::Item|User::Identity::Item/"METHODS">.
+ 
 =head2 Constructors
 
-User::Identity::Location-E<gt>B<new>([NAME], OPTIONS)
-
+Extends L<"Constructors" in User::Identity::Item|User::Identity::Item/"Constructors">.
+ 
 =over 4
+
+=item User::Identity::Location-E<gt>B<new>( [NAME], OPTIONS )
 
 Create a new location.  You can specify a name as first argument, or
 in the OPTION list.  Without a specific name, the organization is used as name.
 
- Option      --Defined in     --Default
- country                        undef
- country_code                   undef
- description   User::Identity::Item  undef
- fax                            undef
- name          User::Identity::Item  <required>
- organization                   undef
- parent        User::Identity::Item  undef
- pc                             undef
- phone                          undef
- pobox                          undef
- pobox_pc                       undef
- postal_code                    <value of option pc>
- state                          undef
- street                         undef
+ -Option      --Defined in          --Default
+  country                             undef
+  country_code                        undef
+  description   User::Identity::Item  undef
+  fax                                 undef
+  name          User::Identity::Item  <required>
+  organization                        undef
+  parent        User::Identity::Item  undef
+  pc                                  undef
+  phone                               undef
+  pobox                               undef
+  pobox_pc                            undef
+  postal_code                         <value of option pc>
+  state                               undef
+  street                              undef
 
-. country => STRING
+=over 2
 
-. country_code => STRING
+=item country => STRING
 
-. description => STRING
+=item country_code => STRING
 
-. fax => STRING|ARRAY
+=item description => STRING
 
-. name => STRING
+=item fax => STRING|ARRAY
 
-. organization => STRING
+=item name => STRING
 
-. parent => OBJECT
+=item organization => STRING
 
-. pc => STRING
+=item parent => OBJECT
 
-=over 4
+=item pc => STRING
 
 Short name for C<postal_code>.
 
+=item phone => STRING|ARRAY
+
+=item pobox => STRING
+
+=item pobox_pc => STRING
+
+=item postal_code => STRING
+
+=item state => STRING
+
+=item street => STRING
+
 =back
-
-. phone => STRING|ARRAY
-
-. pobox => STRING
-
-. pobox_pc => STRING
-
-. postal_code => STRING
-
-. state => STRING
-
-. street => STRING
 
 =back
 
 =head2 Attributes
 
-$obj-E<gt>B<city>
-
+Extends L<"Attributes" in User::Identity::Item|User::Identity::Item/"Attributes">.
+ 
 =over 4
+
+=item $obj-E<gt>B<city>()
 
 The city where the address is located.
 
-=back
-
-$obj-E<gt>B<country>
-
-=over 4
+=item $obj-E<gt>B<country>()
 
 The country where the address is located.  If the name of the country is
 not known but a country code is defined, the name will be looked-up
 using Geography::Countries (if installed).
 
-=back
-
-$obj-E<gt>B<countryCode>
-
-=over 4
+=item $obj-E<gt>B<countryCode>()
 
 Each country has an ISO standard abbreviation.  Specify the country or the
 country code, and the other will be filled in automatically.
 
-=back
+=item $obj-E<gt>B<description>()
 
-$obj-E<gt>B<description>
+Inherited, see L<User::Identity::Item/"Attributes">
 
-=over 4
-
-See L<User::Identity::Item/"Attributes">
-
-=back
-
-$obj-E<gt>B<fax>
-
-=over 4
+=item $obj-E<gt>B<fax>()
 
 One or more fax numbers, like L<phone()|User::Identity::Location/"Attributes">.
 
-=back
-
-$obj-E<gt>B<fullAddress>
-
-=over 4
+=item $obj-E<gt>B<fullAddress>()
 
 Create an address to put on a postal mailing, in the format as normal in
 the country where it must go to.  To be able to achieve that, the country
@@ -152,74 +142,42 @@ example:
  print $uil->fullAddress;
  print $user->find(location => 'home')->fullAddress;
 
-=back
+=item $obj-E<gt>B<name>( [NEWNAME] )
 
-$obj-E<gt>B<name>([NEWNAME])
+Inherited, see L<User::Identity::Item/"Attributes">
 
-=over 4
-
-See L<User::Identity::Item/"Attributes">
-
-=back
-
-$obj-E<gt>B<organization>
-
-=over 4
+=item $obj-E<gt>B<organization>()
 
 The organization (for instance company) which is related to this location.
 
-=back
-
-$obj-E<gt>B<phone>
-
-=over 4
+=item $obj-E<gt>B<phone>()
 
 One or more phone numbers.  Please use the internation notation, which
 starts with C<'+'>, for instance C<+31-26-12131>.  In scalar context,
 only the first number is produced.  In list context, all numbers are
 presented.
 
-=back
-
-$obj-E<gt>B<pobox>
-
-=over 4
+=item $obj-E<gt>B<pobox>()
 
 Post Office mail box specification.  Use C<"P.O.Box 314">, not simple C<314>.
 
-=back
-
-$obj-E<gt>B<poboxPostalCode>
-
-=over 4
+=item $obj-E<gt>B<poboxPostalCode>()
 
 The postal code related to the Post-Office mail box.  Defined by new() option
 C<pobox_pc>.
 
-=back
-
-$obj-E<gt>B<postalCode>
-
-=over 4
+=item $obj-E<gt>B<postalCode>()
 
 The postal code is very country dependent.  Also, the location of the
 code within the formatted string is country dependent.
 
-=back
-
-$obj-E<gt>B<state>
-
-=over 4
+=item $obj-E<gt>B<state>()
 
 The state, which is important for some contries but certainly not for
 the smaller ones.  Only set this value when you state has to appear on
 printed addresses.
 
-=back
-
-$obj-E<gt>B<street>
-
-=over 4
+=item $obj-E<gt>B<street>()
 
 Returns the address of this location.  Since Perl 5.7.3, you can use
 unicode in strings, so why not format the address nicely?
@@ -228,116 +186,74 @@ unicode in strings, so why not format the address nicely?
 
 =head2 Collections
 
-$obj-E<gt>B<add>(COLLECTION, ROLE)
-
+Extends L<"Collections" in User::Identity::Item|User::Identity::Item/"Collections">.
+ 
 =over 4
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<add>(COLLECTION, ROLE)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
+=item $obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<collection>(NAME)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<collection>(NAME)
+=item $obj-E<gt>B<find>(COLLECTION, ROLE)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<parent>( [PARENT] )
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<find>(COLLECTION, ROLE)
+=item $obj-E<gt>B<removeCollection>(OBJECT|NAME)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<type>()
 
-=back
+=item User::Identity::Location-E<gt>B<type>()
 
-$obj-E<gt>B<parent>([PARENT])
+Inherited, see L<User::Identity::Item/"Collections">
 
-=over 4
+=item $obj-E<gt>B<user>()
 
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<removeCollection>(OBJECT|NAME)
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<type>
-
-User::Identity::Location-E<gt>B<type>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<user>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
+Inherited, see L<User::Identity::Item/"Collections">
 
 =back
 
 =head1 DIAGNOSTICS
 
-Error: $object is not a collection.
-
 =over 4
+
+=item Error: $object is not a collection.
 
 The first argument is an object, but not of a class which extends
 L<User::Identity::Collection|User::Identity::Collection>.
 
-=back
-
-Error: Cannot load collection module for $type ($class).
-
-=over 4
+=item Error: Cannot load collection module for $type ($class).
 
 Either the specified $type does not exist, or that module named $class returns
 compilation errors.  If the type as specified in the warning is not
 the name of a package, you specified a nickname which was not defined.
 Maybe you forgot the 'require' the package which defines the nickname.
 
-=back
-
-Error: Creation of a collection via $class failed.
-
-=over 4
+=item Error: Creation of a collection via $class failed.
 
 The $class did compile, but it was not possible to create an object
 of that class using the options you specified.
 
-=back
-
-Error: Don't know what type of collection you want to add.
-
-=over 4
+=item Error: Don't know what type of collection you want to add.
 
 If you add a collection, it must either by a collection object or a
 list of options which can be used to create a collection object.  In
 the latter case, the type of collection must be specified.
 
-=back
-
-Warning: No collection $name
-
-=over 4
+=item Warning: No collection $name
 
 The collection with $name does not exist and can not be created.
 
@@ -345,12 +261,12 @@ The collection with $name does not exist and can not be created.
 
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.93,
-built on December 24, 2009. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.94,
+built on January 24, 2014. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007-2009 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
+Copyrights 2003-2014 by [Mark Overmeer <perl@overmeer.net>]. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

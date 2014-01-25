@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 User::Identity::Archive - base class for archiving user information
@@ -23,123 +25,105 @@ An archive stores collections. It depends on the type of archive how and
 where that is done.  Some archivers may limit the kinds of selections
 which can be stored.
 
+Extends L<"DESCRIPTION" in User::Identity::Item|User::Identity::Item/"DESCRIPTION">.
+ 
 =head1 OVERLOADED
 
 =head1 METHODS
 
+Extends L<"METHODS" in User::Identity::Item|User::Identity::Item/"METHODS">.
+ 
 =head2 Constructors
 
-User::Identity::Archive-E<gt>B<new>([NAME], OPTIONS)
-
+Extends L<"Constructors" in User::Identity::Item|User::Identity::Item/"Constructors">.
+ 
 =over 4
 
- Option     --Defined in     --Default
- description  User::Identity::Item  undef
- from                          undef
- name         User::Identity::Item  <required>
- parent       User::Identity::Item  undef
+=item User::Identity::Archive-E<gt>B<new>( [NAME], OPTIONS )
 
-. description => STRING
+ -Option     --Defined in          --Default
+  description  User::Identity::Item  undef
+  from                               undef
+  name         User::Identity::Item  <required>
+  parent       User::Identity::Item  undef
 
-. from => FILEHANDLE|FILENAME
+=over 2
 
-. name => STRING
+=item description => STRING
 
-. parent => OBJECT
+=item from => FILEHANDLE|FILENAME
+
+=item name => STRING
+
+=item parent => OBJECT
+
+=back
 
 =back
 
 =head2 Attributes
 
-$obj-E<gt>B<description>
-
+Extends L<"Attributes" in User::Identity::Item|User::Identity::Item/"Attributes">.
+ 
 =over 4
 
-See L<User::Identity::Item/"Attributes">
+=item $obj-E<gt>B<description>()
 
-=back
+Inherited, see L<User::Identity::Item/"Attributes">
 
-$obj-E<gt>B<name>([NEWNAME])
+=item $obj-E<gt>B<name>( [NEWNAME] )
 
-=over 4
-
-See L<User::Identity::Item/"Attributes">
+Inherited, see L<User::Identity::Item/"Attributes">
 
 =back
 
 =head2 Collections
 
-$obj-E<gt>B<add>(COLLECTION, ROLE)
-
+Extends L<"Collections" in User::Identity::Item|User::Identity::Item/"Collections">.
+ 
 =over 4
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<add>(COLLECTION, ROLE)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
+=item $obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<collection>(NAME)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<collection>(NAME)
+=item $obj-E<gt>B<find>(COLLECTION, ROLE)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<parent>( [PARENT] )
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<find>(COLLECTION, ROLE)
+=item $obj-E<gt>B<removeCollection>(OBJECT|NAME)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<type>()
 
-=back
+=item User::Identity::Archive-E<gt>B<type>()
 
-$obj-E<gt>B<parent>([PARENT])
+Inherited, see L<User::Identity::Item/"Collections">
 
-=over 4
+=item $obj-E<gt>B<user>()
 
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<removeCollection>(OBJECT|NAME)
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<type>
-
-User::Identity::Archive-E<gt>B<type>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<user>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
+Inherited, see L<User::Identity::Item/"Collections">
 
 =back
 
 =head2 Access to the archive
 
-$obj-E<gt>B<from>(SOURCE, OPTIONS)
-
 =over 4
+
+=item $obj-E<gt>B<from>(SOURCE, OPTIONS)
 
 Read definitions from the specified SOURCE, which usually can be a
 filehandle or filename.  The syntax used in the information SOURCE
@@ -158,48 +142,32 @@ example:
 
 =head1 DIAGNOSTICS
 
-Error: $object is not a collection.
-
 =over 4
+
+=item Error: $object is not a collection.
 
 The first argument is an object, but not of a class which extends
 L<User::Identity::Collection|User::Identity::Collection>.
 
-=back
-
-Error: Cannot load collection module for $type ($class).
-
-=over 4
+=item Error: Cannot load collection module for $type ($class).
 
 Either the specified $type does not exist, or that module named $class returns
 compilation errors.  If the type as specified in the warning is not
 the name of a package, you specified a nickname which was not defined.
 Maybe you forgot the 'require' the package which defines the nickname.
 
-=back
-
-Error: Creation of a collection via $class failed.
-
-=over 4
+=item Error: Creation of a collection via $class failed.
 
 The $class did compile, but it was not possible to create an object
 of that class using the options you specified.
 
-=back
-
-Error: Don't know what type of collection you want to add.
-
-=over 4
+=item Error: Don't know what type of collection you want to add.
 
 If you add a collection, it must either by a collection object or a
 list of options which can be used to create a collection object.  In
 the latter case, the type of collection must be specified.
 
-=back
-
-Warning: No collection $name
-
-=over 4
+=item Warning: No collection $name
 
 The collection with $name does not exist and can not be created.
 
@@ -207,12 +175,12 @@ The collection with $name does not exist and can not be created.
 
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.93,
-built on December 24, 2009. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.94,
+built on January 24, 2014. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007-2009 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
+Copyrights 2003-2014 by [Mark Overmeer <perl@overmeer.net>]. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

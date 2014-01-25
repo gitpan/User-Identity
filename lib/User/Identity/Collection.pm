@@ -1,10 +1,9 @@
-# Copyrights 2003,2004,2007-2009 by Mark Overmeer <perl@overmeer.net>.
+# Copyrights 2003-2014 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see Changes.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 1.06.
+# Pod stripped from pm file by OODoc 2.01.
 package User::Identity::Collection;
-use vars '$VERSION';
-$VERSION = '0.93';
+our $VERSION = '0.94';
 
 use base 'User::Identity::Item';
 
@@ -53,8 +52,6 @@ sub init($)
 
 sub roles() { values %{shift->{UIC_roles}} }
 
-#-----------------------------------------
-
 
 sub itemType { shift->{UIC_itype} }
 
@@ -83,8 +80,6 @@ sub addRole(@)
     $role;
 }
 
-#-----------------------------------------
-
 
 sub removeRole($)
 {   my ($self, $which) = @_;
@@ -93,8 +88,6 @@ sub removeRole($)
     $role->parent(undef);
     $role;
 }
-
-#-----------------------------------------
 
 
 sub renameRole($$$)
@@ -116,8 +109,6 @@ sub renameRole($$$)
     $self->{UIC_roles}{$newname} = $role;
 }
 
-#-----------------------------------------
-
 
 sub sorted() { sort {$a->name cmp $b->name} shift->roles}
 
@@ -132,8 +123,6 @@ sub find($)
     : wantarray        ? grep ({ $select->($_, $self) } $self->roles)
     :                    first { $select->($_, $self) } $self->roles;
 }
-
-#-----------------------------------------
 
 1;
 

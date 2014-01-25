@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 User::Identity::Archive::Plain - simple, plain text archiver
@@ -21,56 +23,56 @@ This archiver, which extends L<User::Identity::Archive|User::Identity::Archive>,
 simple plain text file to store the information of users.  The syntax
 is described in the DETAILS section, below.
 
+Extends L<"DESCRIPTION" in User::Identity::Archive|User::Identity::Archive/"DESCRIPTION">.
+ 
 =head1 OVERLOADED
 
+Extends L<"OVERLOADED" in User::Identity::Archive|User::Identity::Archive/"OVERLOADED">.
+ 
 =head1 METHODS
 
+Extends L<"METHODS" in User::Identity::Archive|User::Identity::Archive/"METHODS">.
+ 
 =head2 Constructors
 
-User::Identity::Archive::Plain-E<gt>B<new>([NAME], OPTIONS)
-
+Extends L<"Constructors" in User::Identity::Archive|User::Identity::Archive/"Constructors">.
+ 
 =over 4
 
- Option       --Defined in     --Default
- abbreviations                   []
- description    User::Identity::Item  undef
- from           User::Identity::Archive  undef
- name           User::Identity::Item  <required>
- only                            []
- parent         User::Identity::Item  undef
- tabstop                         8
+=item User::Identity::Archive::Plain-E<gt>B<new>( [NAME], OPTIONS )
 
-. abbreviations => HASH|ARRAY
+ -Option       --Defined in             --Default
+  abbreviations                           []
+  description    User::Identity::Item     undef
+  from           User::Identity::Archive  undef
+  name           User::Identity::Item     <required>
+  only                                    []
+  parent         User::Identity::Item     undef
+  tabstop                                 8
 
-=over 4
+=over 2
+
+=item abbreviations => HASH|ARRAY
 
 Adds a set of abbreviations for collections to the syntax of the
 plain text archiver.  See section L</Simplified class names> for
 a list of predefined names.
 
-=back
+=item description => STRING
 
-. description => STRING
+=item from => FILEHANDLE|FILENAME
 
-. from => FILEHANDLE|FILENAME
+=item name => STRING
 
-. name => STRING
-
-. only => ARRAY|ABBREV
-
-=over 4
+=item only => ARRAY|ABBREV
 
 Lists the only information (as (list of) abbreviations) which should be
 read.  Other information is removed before even checking whether it is
 a valid abbreviation or not.
 
-=back
+=item parent => OBJECT
 
-. parent => OBJECT
-
-. tabstop => INTEGER
-
-=over 4
+=item tabstop => INTEGER
 
 Sets the default tab-stop width.
 
@@ -80,9 +82,11 @@ Sets the default tab-stop width.
 
 =head2 Attributes
 
-$obj-E<gt>B<abbreviation>(NAME, [CLASS])
-
+Extends L<"Attributes" in User::Identity::Archive|User::Identity::Archive/"Attributes">.
+ 
 =over 4
+
+=item $obj-E<gt>B<abbreviation>( NAME, [CLASS] )
 
 Returns the class which is capable of storing information which is
 grouped as NAME.  With CLASS argument, you add (or overrule) the
@@ -91,125 +95,89 @@ definitions of an abbreviation.  The CLASS is automatically loaded.
 If CLASS is C<undef>, then the abbreviation is deleted.  The class
 name which is deleted is returned.
 
-=back
-
-$obj-E<gt>B<abbreviations>
-
-=over 4
+=item $obj-E<gt>B<abbreviations>()
 
 Returns a sorted list of all names which are known as abbreviations.
 
-=back
-
-$obj-E<gt>B<defaultTabStop>([INTEGER])
-
-=over 4
+=item $obj-E<gt>B<defaultTabStop>( [INTEGER] )
 
 Returns the width of a tab, optionally after setting it.  This must be
 the same as set in your editor.
 
-=back
+=item $obj-E<gt>B<description>()
 
-$obj-E<gt>B<description>
+Inherited, see L<User::Identity::Item/"Attributes">
 
-=over 4
+=item $obj-E<gt>B<name>( [NEWNAME] )
 
-See L<User::Identity::Item/"Attributes">
-
-=back
-
-$obj-E<gt>B<name>([NEWNAME])
-
-=over 4
-
-See L<User::Identity::Item/"Attributes">
+Inherited, see L<User::Identity::Item/"Attributes">
 
 =back
 
 =head2 Collections
 
-$obj-E<gt>B<add>(COLLECTION, ROLE)
-
+Extends L<"Collections" in User::Identity::Archive|User::Identity::Archive/"Collections">.
+ 
 =over 4
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<add>(COLLECTION, ROLE)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
+=item $obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<collection>(NAME)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<collection>(NAME)
+=item $obj-E<gt>B<find>(COLLECTION, ROLE)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<parent>( [PARENT] )
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<find>(COLLECTION, ROLE)
+=item $obj-E<gt>B<removeCollection>(OBJECT|NAME)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<type>()
 
-=back
+=item User::Identity::Archive::Plain-E<gt>B<type>()
 
-$obj-E<gt>B<parent>([PARENT])
+Inherited, see L<User::Identity::Item/"Collections">
 
-=over 4
+=item $obj-E<gt>B<user>()
 
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<removeCollection>(OBJECT|NAME)
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<type>
-
-User::Identity::Archive::Plain-E<gt>B<type>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<user>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
+Inherited, see L<User::Identity::Item/"Collections">
 
 =back
 
 =head2 Access to the archive
 
-$obj-E<gt>B<from>(FILEHANDLE|FILENAME|ARRAY, OPTIONS)
-
+Extends L<"Access to the archive" in User::Identity::Archive|User::Identity::Archive/"Access to the archive">.
+ 
 =over 4
+
+=item $obj-E<gt>B<from>( <FILEHANDLE|FILENAME|ARRAY>, OPTIONS )
 
 Read the plain text information from the specified FILEHANDLE, FILENAME,
 STRING, or ARRAY of lines.
 
- Option --Default
- tabstop  <default from object>
- verbose  0
+ -Option --Default
+  tabstop  <default from object>
+  verbose  0
 
-. tabstop => INTEGER
+=over 2
 
-. verbose => INTEGER
+=item tabstop => INTEGER
+
+=item verbose => INTEGER
+
+=back
 
 =back
 
@@ -338,54 +306,34 @@ setting is 8, but some people prefer 4 (or other values).
 
 =head1 DIAGNOSTICS
 
-Error: $object is not a collection.
-
 =over 4
+
+=item Error: $object is not a collection.
 
 The first argument is an object, but not of a class which extends
 L<User::Identity::Collection|User::Identity::Collection>.
 
-=back
-
-Error: Cannot load collection module for $type ($class).
-
-=over 4
+=item Error: Cannot load collection module for $type ($class).
 
 Either the specified $type does not exist, or that module named $class returns
 compilation errors.  If the type as specified in the warning is not
 the name of a package, you specified a nickname which was not defined.
 Maybe you forgot the 'require' the package which defines the nickname.
 
-=back
+=item Warning: Cannot read archive from $source
 
-Warning: Cannot read archive from $source
-
-=over 4
-
-=back
-
-Error: Creation of a collection via $class failed.
-
-=over 4
+=item Error: Creation of a collection via $class failed.
 
 The $class did compile, but it was not possible to create an object
 of that class using the options you specified.
 
-=back
-
-Error: Don't know what type of collection you want to add.
-
-=over 4
+=item Error: Don't know what type of collection you want to add.
 
 If you add a collection, it must either by a collection object or a
 list of options which can be used to create a collection object.  In
 the latter case, the type of collection must be specified.
 
-=back
-
-Warning: No collection $name
-
-=over 4
+=item Warning: No collection $name
 
 The collection with $name does not exist and can not be created.
 
@@ -393,12 +341,12 @@ The collection with $name does not exist and can not be created.
 
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.93,
-built on December 24, 2009. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.94,
+built on January 24, 2014. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007-2009 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
+Copyrights 2003-2014 by [Mark Overmeer <perl@overmeer.net>]. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 User::Identity - maintains info about a physical person
@@ -33,11 +35,13 @@ or whatever.  Extension to simplify this task are still to be developed.
 If you need more kinds of user information, then please contact the
 module author.
 
+Extends L<"DESCRIPTION" in User::Identity::Item|User::Identity::Item/"DESCRIPTION">.
+ 
 =head1 OVERLOADED
 
-$obj-E<gt>B<stringification>
-
 =over 4
+
+=item $obj-E<gt>B<stringification>()
 
 When an C<User::Identity> is used as string, it is automatically
 translated into the fullName() of the user involved.
@@ -52,11 +56,15 @@ example:
 
 =head1 METHODS
 
+Extends L<"METHODS" in User::Identity::Item|User::Identity::Item/"METHODS">.
+ 
 =head2 Constructors
 
-User::Identity-E<gt>B<new>([NAME], OPTIONS)
-
+Extends L<"Constructors" in User::Identity::Item|User::Identity::Item/"Constructors">.
+ 
 =over 4
+
+=item User::Identity-E<gt>B<new>( [NAME], OPTIONS )
 
 Create a new user identity, which will contain all data related 
 to a single physical human being.  Most user data can only be
@@ -64,138 +72,112 @@ specified at object construction, because they should never
 change.  A NAME may be specified as first argument, but also
 as option, one way or the other is required.
 
- Option     --Defined in     --Default
- birth                         undef
- charset                       $ENV{LC_CTYPE}
- courtesy                      undef
- description  User::Identity::Item  undef
- firstname                     undef
- formal_name                   undef
- full_name                     undef
- gender                        undef
- initials                      undef
- language                      'en'
- name         User::Identity::Item  <required>
- nickname                      undef
- parent       User::Identity::Item  undef
- prefix                        undef
- surname                       undef
- titles                        undef
+ -Option     --Defined in          --Default
+  birth                              undef
+  charset                            $ENV{LC_CTYPE}
+  courtesy                           undef
+  description  User::Identity::Item  undef
+  firstname                          undef
+  formal_name                        undef
+  full_name                          undef
+  gender                             undef
+  initials                           undef
+  language                           'en'
+  name         User::Identity::Item  <required>
+  nickname                           undef
+  parent       User::Identity::Item  undef
+  prefix                             undef
+  surname                            undef
+  titles                             undef
 
-. birth => DATE
+=over 2
 
-. charset => STRING
+=item birth => DATE
 
-. courtesy => STRING
+=item charset => STRING
 
-. description => STRING
+=item courtesy => STRING
 
-. firstname => STRING
+=item description => STRING
 
-. formal_name => STRING
+=item firstname => STRING
 
-. full_name => STRING
+=item formal_name => STRING
 
-. gender => STRING
+=item full_name => STRING
 
-. initials => STRING
+=item gender => STRING
 
-. language => STRING
+=item initials => STRING
 
-. name => STRING
+=item language => STRING
 
-. nickname => STRING
+=item name => STRING
 
-. parent => OBJECT
+=item nickname => STRING
 
-. prefix => STRING
+=item parent => OBJECT
 
-. surname => STRING
+=item prefix => STRING
 
-. titles => STRING
+=item surname => STRING
+
+=item titles => STRING
+
+=back
 
 =back
 
 =head2 Attributes
 
-$obj-E<gt>B<age>
-
+Extends L<"Attributes" in User::Identity::Item|User::Identity::Item/"Attributes">.
+ 
 =over 4
+
+=item $obj-E<gt>B<age>()
 
 Calcuted from the datge of birth to the current moment, as integer.  On the
 birthday, the number is incremented already.
 
-=back
-
-$obj-E<gt>B<birth>
-
-=over 4
+=item $obj-E<gt>B<birth>()
 
 Returns the date in standardized format: YYYYMMDD, easy to sort and
 select.  This may return C<undef>, even if the L<dateOfBirth()|User::Identity/"Attributes"> contains
 a value, simply because the format is not understood. Month or day may
 contain C<'00'> to indicate that those values are not known.
 
-=back
-
-$obj-E<gt>B<charset>
-
-=over 4
+=item $obj-E<gt>B<charset>()
 
 The user's prefered character set, which defaults to the value of
 LC_CTYPE environment variable.
 
-=back
-
-$obj-E<gt>B<courtesy>
-
-=over 4
+=item $obj-E<gt>B<courtesy>()
 
 The courtesy is used to address people in a very formal way.  Values
 are like "Mr.", "Mrs.", "Sir", "Frau", "Heer", "de heer", "mevrouw".
 This often provides a way to find the gender of someone addressed.
 
-=back
-
-$obj-E<gt>B<dateOfBirth>
-
-=over 4
+=item $obj-E<gt>B<dateOfBirth>()
 
 Returns the date of birth, as specified during instantiation.
 
-=back
+=item $obj-E<gt>B<description>()
 
-$obj-E<gt>B<description>
+Inherited, see L<User::Identity::Item/"Attributes">
 
-=over 4
-
-See L<User::Identity::Item/"Attributes">
-
-=back
-
-$obj-E<gt>B<firstname>
-
-=over 4
+=item $obj-E<gt>B<firstname>()
 
 Returns the first name of the user.  If it is not defined explicitly, it
 is derived from the nickname, and than capitalized if needed.
 
-=back
-
-$obj-E<gt>B<formalName>
-
-=over 4
+=item $obj-E<gt>B<formalName>()
 
 Returns a formal name for the user.  If not defined as instantiation
 parameter (see new()), it is constructed from other available information,
 which may result in an incorrect or an incomplete name.  The result is
 built from "courtesy initials prefix surname title".
 
-=back
-
-$obj-E<gt>B<fullName>
-
-=over 4
+=item $obj-E<gt>B<fullName>()
 
 If this is not specified as value during object construction, it is
 guessed based on other known values like "firstname prefix surname". 
@@ -204,94 +186,54 @@ as firstname.  When a firstname is provided without surname, the
 nickname is taken as surname.  If both are not provided, then
 the nickname is used as fullname.
 
-=back
-
-$obj-E<gt>B<gender>
-
-=over 4
+=item $obj-E<gt>B<gender>()
 
 Returns the specified gender of the person, as specified during
 instantiation, which could be like 'Male', 'm', 'homme', 'man'.
 There is no smart behavior on this: the exact specified value is
 returned. Methods isMale(), isFemale(), and courtesy() are smart.
 
-=back
-
-$obj-E<gt>B<initials>
-
-=over 4
+=item $obj-E<gt>B<initials>()
 
 The initials, which may be derived from the first letters of the
 firstname.
 
-=back
-
-$obj-E<gt>B<isFemale>
-
-=over 4
+=item $obj-E<gt>B<isFemale>()
 
 See isMale(): return true if we are sure the user is a woman.
 
-=back
-
-$obj-E<gt>B<isMale>
-
-=over 4
+=item $obj-E<gt>B<isMale>()
 
 Returns true if we are sure that the user is male.  This is specified as
 gender at instantiation, or derived from the courtesy value.  Methods
 isMale and isFemale are not complementatory: they can both return false
 for the same user, in which case the gender is undertermined.
 
-=back
-
-$obj-E<gt>B<language>
-
-=over 4
+=item $obj-E<gt>B<language>()
 
 Can contain a list or a single language name, as defined by the RFC
 Examples are 'en', 'en-GB', 'nl-BE'.  The default language  is 'en'
 (English).
 
-=back
+=item $obj-E<gt>B<name>( [NEWNAME] )
 
-$obj-E<gt>B<name>([NEWNAME])
+Inherited, see L<User::Identity::Item/"Attributes">
 
-=over 4
-
-See L<User::Identity::Item/"Attributes">
-
-=back
-
-$obj-E<gt>B<nickname>
-
-=over 4
+=item $obj-E<gt>B<nickname>()
 
 Returns the user's nickname, which could be used as username, e-mail
 alias, or such.  When no nickname was explicitly specified, the name is
 used.
 
-=back
-
-$obj-E<gt>B<prefix>
-
-=over 4
+=item $obj-E<gt>B<prefix>()
 
 The words which are between the firstname (or initials) and the surname.
 
-=back
-
-$obj-E<gt>B<surname>
-
-=over 4
+=item $obj-E<gt>B<surname>()
 
 Returns the surname of person, or C<undef> if that is not known.
 
-=back
-
-$obj-E<gt>B<titles>
-
-=over 4
+=item $obj-E<gt>B<titles>()
 
 The titles, degrees in education or of other kind.  If these are complex,
 you may need to specify the formal name of the users as well, because
@@ -301,116 +243,74 @@ smart formatting probably failes.
 
 =head2 Collections
 
-$obj-E<gt>B<add>(COLLECTION, ROLE)
-
+Extends L<"Collections" in User::Identity::Item|User::Identity::Item/"Collections">.
+ 
 =over 4
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<add>(COLLECTION, ROLE)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
+=item $obj-E<gt>B<addCollection>(OBJECT | ([TYPE], OPTIONS))
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<collection>(NAME)
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<collection>(NAME)
+=item $obj-E<gt>B<find>(COLLECTION, ROLE)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<parent>( [PARENT] )
 
-=back
+Inherited, see L<User::Identity::Item/"Collections">
 
-$obj-E<gt>B<find>(COLLECTION, ROLE)
+=item $obj-E<gt>B<removeCollection>(OBJECT|NAME)
 
-=over 4
+Inherited, see L<User::Identity::Item/"Collections">
 
-See L<User::Identity::Item/"Collections">
+=item $obj-E<gt>B<type>()
 
-=back
+=item User::Identity-E<gt>B<type>()
 
-$obj-E<gt>B<parent>([PARENT])
+Inherited, see L<User::Identity::Item/"Collections">
 
-=over 4
+=item $obj-E<gt>B<user>()
 
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<removeCollection>(OBJECT|NAME)
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<type>
-
-User::Identity-E<gt>B<type>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
-
-=back
-
-$obj-E<gt>B<user>
-
-=over 4
-
-See L<User::Identity::Item/"Collections">
+Inherited, see L<User::Identity::Item/"Collections">
 
 =back
 
 =head1 DIAGNOSTICS
 
-Error: $object is not a collection.
-
 =over 4
+
+=item Error: $object is not a collection.
 
 The first argument is an object, but not of a class which extends
 L<User::Identity::Collection|User::Identity::Collection>.
 
-=back
-
-Error: Cannot load collection module for $type ($class).
-
-=over 4
+=item Error: Cannot load collection module for $type ($class).
 
 Either the specified $type does not exist, or that module named $class returns
 compilation errors.  If the type as specified in the warning is not
 the name of a package, you specified a nickname which was not defined.
 Maybe you forgot the 'require' the package which defines the nickname.
 
-=back
-
-Error: Creation of a collection via $class failed.
-
-=over 4
+=item Error: Creation of a collection via $class failed.
 
 The $class did compile, but it was not possible to create an object
 of that class using the options you specified.
 
-=back
-
-Error: Don't know what type of collection you want to add.
-
-=over 4
+=item Error: Don't know what type of collection you want to add.
 
 If you add a collection, it must either by a collection object or a
 list of options which can be used to create a collection object.  In
 the latter case, the type of collection must be specified.
 
-=back
-
-Warning: No collection $name
-
-=over 4
+=item Warning: No collection $name
 
 The collection with $name does not exist and can not be created.
 
@@ -418,12 +318,12 @@ The collection with $name does not exist and can not be created.
 
 =head1 SEE ALSO
 
-This module is part of User-Identity distribution version 0.93,
-built on December 24, 2009. Website: F<http://perl.overmeer.net/userid/>
+This module is part of User-Identity distribution version 0.94,
+built on January 24, 2014. Website: F<http://perl.overmeer.net/userid/>
 
 =head1 LICENSE
 
-Copyrights 2003,2004,2007-2009 by Mark Overmeer <perl@overmeer.net>. For other contributors see Changes.
+Copyrights 2003-2014 by [Mark Overmeer <perl@overmeer.net>]. For other contributors see Changes.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

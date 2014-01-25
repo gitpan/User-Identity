@@ -30,4 +30,5 @@ t/10userid.t
 t/20loc.t
 t/30col.t
 t/99pod.t
-META.yml                                 Module meta-data (added by MakeMaker)
+META.yml                                 Module YAML meta-data (added by MakeMaker)
+META.json                                Module JSON meta-data (added by MakeMaker)
